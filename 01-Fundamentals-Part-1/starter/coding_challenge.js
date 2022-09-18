@@ -12,21 +12,15 @@ HINT: Value X is between 50 and 300, if it's >= 50 && <= 300 😉
 GOOD LUCK 😀
 */
 
-console.log("THIS IS THE CHALLENGE");
+console.log("THIS IS THE FIRST CHALLENGE");
 console.log("------------------------------------");
 
 const bill = 310;
-let tip = 20;
 
-if (bill >= 50 && bill <= 300) tip = 15;
+const tip = bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2;
 
 console.log(
-  "the bill was " +
-    bill +
-    " , the tip was " +
-    (tip / 100) * bill +
-    " total is " +
-    (1 + tip / 100) * bill
+  `the bill was + ${bill}, the tip is ${tip} +total is ${bill + tip}`
 );
 
 console.log("THIS IS THE SECOND CHALLENGE");
@@ -68,7 +62,7 @@ TEST DATA BONUS 2: Dolphins score 97, 112 and 101. Koalas score 109, 95 and 106
 GOOD LUCK 😀
 */
 
-const scoreDolphins = (96 + 112 + 101) / 3;
+const scoreDolphins = (96 + 112 + 102) / 3;
 const scoreKoalas = (96 + 112 + 101) / 3;
 
 if (scoreDolphins === scoreKoalas && scoreDolphins >= 100) {

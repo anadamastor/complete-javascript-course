@@ -98,23 +98,23 @@ if (height) {
 }
 
 // equality
-const ageNow = 18;
-if (ageNow === 18) console.log("you are an adulta");
+// const ageNow = 18;
+// if (ageNow === 18) console.log("you are an adulta");
 
-const fav = Number(prompt("what is your fav number?"));
-console.log(fav);
+// const fav = Number(prompt("what is your fav number?"));
+// console.log(fav);
 
-if (fav === 23) {
-  console.log("amazing number");
-} else if (fav === 7) {
-  console.log("7 is also cool");
-} else {
-  console.log("ciao");
-}
+// if (fav === 23) {
+//   console.log("amazing number");
+// } else if (fav === 7) {
+//   console.log("7 is also cool");
+// } else {
+//   console.log("ciao");
+// }
 
-if (fav !== 3) {
-  console.log("why not 3?");
-}
+// if (fav !== 3) {
+//   console.log("why not 3?");
+// }
 
 const hasDriverLicense = true;
 const hasGoodVision = false;
@@ -130,3 +130,40 @@ if (shouldDrive) {
 } else {
   console.log("sarah cannot drive");
 }
+
+// 26 - SWITCH STATEMENT
+console.log("--------26 - SWITCH STATEMENT----");
+const day = "sundasy";
+
+switch (day) {
+  case "monday":
+    console.log("Plan course structure");
+    console.log("Go to meetup");
+    break;
+  case "tuesday":
+    console.log("Prep theory videos");
+    break;
+  case "wednesday":
+  case "thursday":
+    console.log("Write code examples");
+    break;
+  case "friday":
+    console.log("record videos");
+    break;
+  case "sunday":
+  case "saturday":
+    console.log("weekends");
+    break;
+  default:
+    console.log("not a valid day");
+}
+console.log("------------------------------------------------");
+
+console.log("--------28 - Conditional (ternary) operator----");
+
+age >= 18 ? console.log("drink wine 🍷") : console.log("dtink water😭");
+
+const drink = age >= 18 ? "wine" : "water";
+console.log(drink);
+
+console.log("------------------------------------------------");
