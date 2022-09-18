@@ -75,6 +75,58 @@ const inputYear = "1999";
 console.log(Number(inputYear), inputYear);
 console.log(inputYear + 18);
 
-console.log(Strig(23));
+console.log(String(23));
 
+// Trythy and Falsy values
+console.log(Boolean(0));
+console.log(Boolean(undefined));
+console.log(Boolean(""));
+console.log(Boolean({}));
 
+const money = 0;
+if (money) {
+  console.log("dont spend money");
+} else {
+  console.log("spend all!");
+}
+
+let height;
+if (height) {
+  console.log("YEEE height is defined");
+} else {
+  console.log("height is undefined");
+}
+
+// equality
+const ageNow = 18;
+if (ageNow === 18) console.log("you are an adulta");
+
+const fav = Number(prompt("what is your fav number?"));
+console.log(fav);
+
+if (fav === 23) {
+  console.log("amazing number");
+} else if (fav === 7) {
+  console.log("7 is also cool");
+} else {
+  console.log("ciao");
+}
+
+if (fav !== 3) {
+  console.log("why not 3?");
+}
+
+const hasDriverLicense = true;
+const hasGoodVision = false;
+
+console.log(hasDriverLicense && hasGoodVision);
+console.log(hasDriverLicense || hasGoodVision);
+console.log(!hasDriverLicense || hasGoodVision);
+
+const shouldDrive = hasDriverLicense && hasGoodVision;
+
+if (shouldDrive) {
+  console.log("sarah can drive");
+} else {
+  console.log("sarah cannot drive");
+}
