@@ -57,3 +57,39 @@ const yearsUntilRetirement = (birthYear, firstName) => {
 
 console.log(yearsUntilRetirement(1991, "Dereks"));
 console.log(yearsUntilRetirement(1987, "Dewwreks"));
+
+// FUNCTION WITHIN ANOTTHER FUNCTION
+console.log(" ==============================§");
+console.log(" functions within other functions ");
+function cutFruitPieces(fruit) {
+  return fruit * 4;
+}
+
+function fruitProcessorSecond(applesNumber, orangesNumber) {
+  const applePieces = cutFruitPieces(applesNumber);
+  const orangePieces = cutFruitPieces(orangesNumber);
+  const juice = `Juice with ${applePieces} apples and ${orangePieces} oranges`;
+  return juice;
+}
+console.log(fruitProcessorSecond(2, 3));
+
+// REVIEWING FUNCTIONS
+console.log(" ==============================§");
+console.log("Function review");
+
+const calcAge = function (birthYear) {
+  return 2037 - birthYear;
+};
+
+const yearsUntilRetirementRev = function (birthYear, firstName) {
+  const age = calcAge(birthYear);
+  const retirement = 65 - age;
+  if (retirement > 0) {
+    return `${firstName} retires in ${retirement}`;
+  } else {
+    return "you're already retired"
+  }
+};
+
+console.log(yearsUntilRetirementRev(1999, "jonas"));
+console.log(yearsUntilRetirementRev(1900, "mathis"));
