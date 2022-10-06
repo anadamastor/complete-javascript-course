@@ -17,9 +17,7 @@
 // § To check if number A is at least double number B, check for A >= 2 * B.
 // Apply this to the team's average scores 😉
 
-const calcAverage = (num1, num2, num3) => {
-  return (num1 + num2 + num3) / 3;
-};
+const calcAverage = (num1, num2, num3) => (num1 + num2 + num3) / 3;
 
 const checkWinner = function (avgDolphins, avgKoalas) {
   if (avgDolphins >= 2 * avgKoalas) {

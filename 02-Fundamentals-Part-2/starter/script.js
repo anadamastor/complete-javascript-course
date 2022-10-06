@@ -87,9 +87,50 @@ const yearsUntilRetirementRev = function (birthYear, firstName) {
   if (retirement > 0) {
     return `${firstName} retires in ${retirement}`;
   } else {
-    return "you're already retired"
+    return "you're already retired";
   }
 };
 
 console.log(yearsUntilRetirementRev(1999, "jonas"));
 console.log(yearsUntilRetirementRev(1900, "mathis"));
+
+/// ARRAYS ///////
+console.log("========ARRAYS CHAPTER====");
+
+const friends = ["Michael", "Steven"];
+console.table(friends);
+
+const years = new Array(132, 234, 2313);
+
+console.table(friends[1]);
+const firstname = "bob";
+const jonas = [firstname, "jack", 2323 - 2];
+console.log(jonas[1]);
+
+console.log("========ARRAYS OPERATIONS====");
+
+//push
+// adds the name and returns the length of the updated array
+const newLength = friends.push("hay");
+console.log(newLength);
+
+//unshift - adds value at the beginning of array
+friends.unshift("jack");
+console.log(friends);
+
+//pop -remove last elemtn
+const popped = friends.pop();
+console.log(popped);
+console.log(friends);
+
+//shift - remove first element
+friends.shift();
+console.log(friends);
+
+// indexOf
+console.log(friends.indexOf("Steven"));
+
+//includes - returns true or false
+friends.push(23);
+console.log(friends.includes("Steven")); //true
+console.log(friends.includes("23")); //false
