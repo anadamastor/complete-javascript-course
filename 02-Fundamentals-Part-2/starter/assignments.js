@@ -35,3 +35,31 @@ if (!neighbors.includes("Germany"))
 
 neighbors[neighbors.indexOf("France")] = "Not France";
 console.log(neighbors);
+
+console.log("======LECTURE: Introduction to Objects======");
+
+const myCountry = {
+  country: "Albania",
+  capital: "Tirana",
+  language: "Shqip",
+  population: 2,
+  neighbours: ["Greece", "Macedonia"],
+  describe: function () {
+    return `${this.country} has ${this.capital} as capital and has ${this.neighbours.length} neighbouring countries`;
+  },
+  checkIsland: function () {
+    this.neighbours.length == 0
+      ? (this.isIsland = true)
+      : (this.isIsland = false);
+    return this.isIsland;
+  },
+};
+console.table(myCountry);
+console.table(
+  `${myCountry.country} has ${myCountry.population} million ${myCountry.language}-speaking people and a capital called ${myCountry.capital}`
+);
+
+console.log("======LECTURE:  Object Methods======");
+
+console.log(myCountry.describe());
+console.log(myCountry.checkIsland());
