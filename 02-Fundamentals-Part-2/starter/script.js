@@ -198,3 +198,86 @@ const jonasSecond = {
 console.log(jonasSecond.getSummary());
 
 //challenge
+console.log("======LECTURE: 46 LOOPS ======");
+
+// evaluation happens before loop start
+// code will run until condition is TRUE.
+for (let rep = 1; rep <= 10; rep++) {
+  console.log(`Lifting weight ${rep} rep`);
+}
+
+console.log("======LECTURE: 47 arrat LOOPS ======");
+
+const jj = {
+  firstName: "Jonas",
+  lastName: "cheneso",
+  age: 23,
+  friends: ["Martina", "Jacopo", "Irene"],
+};
+
+const types = [];
+
+for (let i = 0; i < jj.friends.length; i++) {
+  console.log(jj.friends[i]);
+  // types[i] = typeof jj.friends[i];
+  types.push(typeof jonas[i]);
+}
+
+console.log(types);
+
+const yearsArray = [1991, 2007, 1837, 2020];
+const ages = [];
+
+for (let i = 0; i < yearsArray.length; i++) {
+  ages.push(2050 - yearsArray[i]);
+}
+console.log(ages);
+console.log(ages);
+
+// BREAK AND CONTINUE
+const mixedArray = ["blaa", 2, "hehe", 3];
+console.log(mixedArray.length);
+for (let i = 0; i < mixedArray.length; i++) {
+  if (typeof mixedArray[i] != "string") continue;
+  console.log(mixedArray[i]);
+}
+
+// break
+for (let i = 0; i < mixedArray.length; i++) {
+  if (typeof mixedArray[i] === "number") break; // interrupt loop
+  console.log(mixedArray[i]);
+}
+
+// BACKWARDS LOOP
+console.log("----BACKWARDS LOOP----");
+const backArray = ["jonas", [2323, 33], 3, 23 + 4, "Peter"];
+for (let i = backArray.length - 1; i >= 0; i--) {
+  console.log(i + " " + backArray[i]);
+}
+
+// NESTED LOOPS
+for (let exercise = 1; exercise < 4; exercise++) {
+  console.log(`---starting exercise ${exercise}`);
+  for (let rep = 1; rep < 6; rep++) {
+    console.log(`Lifting weights repetition ${rep}`);
+  }
+}
+
+console.log("======LECTURE: WHILE LOOPS======");
+
+let rep = 1;
+//only needs a condition
+while (rep <= 10) {
+  console.log(`Lifting weights repetition ${rep}`);
+  rep++;
+}
+
+let dice = Math.trunc(Math.random() * 6);
+console.log(dice);
+
+// if dice is 6 at the beginning it does not start
+while (dice !== 6) {
+  console.log(`you rolled a ${dice}`);
+  dice = Math.trunc(Math.random() * 6) + 1;
+  if (dice == 6) console.log("Loop is about to end");
+}

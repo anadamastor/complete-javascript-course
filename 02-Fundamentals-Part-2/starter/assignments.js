@@ -63,3 +63,46 @@ console.log("======LECTURE:  Object Methods======");
 
 console.log(myCountry.describe());
 console.log(myCountry.checkIsland());
+
+for (let i = 1; i <= 50; i++) {
+  console.log(`Voter number ${i} is currently voting`);
+}
+
+console.log("======LECTURE: LOOPING ARRAYS BREAKING AND CONTINUE======");
+// USE POPULATION ARRAY FROM EARLIER
+
+percentage2 = [];
+for (let i = 0; i < population.length; i++) {
+  const ratio = popRatio(population[i]);
+  percentage2.push(ratio);
+}
+console.log(percentage2);
+
+console.log("======LECTURE: NESTED LOOPS======");
+
+listOfNeighbours = [
+  ["Canada", "Mexico"],
+  ["Spain"],
+  ["Norway", "Sweden", "Russia"],
+];
+
+for (i = 0; i < listOfNeighbours.length; i++) {
+  console.log(listOfNeighbours[i]);
+  for (j = 0; j < listOfNeighbours[i].length; j++) {
+    console.log(`neighbhour: ${listOfNeighbours[i][j]}`);
+  }
+}
+
+console.log("======LECTURE: WHILE LOOPS======");
+
+i = 0;
+percentage3 = [];
+console.log(population);
+while (i < population.length) {
+  console.log(population[i]);
+  percentage3.push(popRatio(population[i]));
+  i++;
+}
+
+console.log(percentage3);
+console.log(percentage2);
