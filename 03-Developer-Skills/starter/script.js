@@ -3,18 +3,57 @@
 
 console.log("hi");
 
-// provblem: calculate amplitude of temperatures
+// problem: calculate amplitude of temperatures
 
-const temperatures = [3, -2, -6, -1, "error", 9, 13, 17, 16, 14, 9, 5];
+const temperatures = [3, -2, -6, -1, "error", 9, 12, 13, 17, 16, 14, 9, 5, 22];
+const temperatures2 = [33, 3134, -2, -6, -1, "error", 9, 12, 13, 22];
 
 // initialize min and max to calculate amplitude
-let min = BigInt;
-let max = +BigInt;
+let min = +Number.MAX_VALUE;
+let max = -Number.MAX_VALUE;
 
-// loop in array
-for (let i = 0; i < temperatures.length; i++) {
-console.log();
-}
-// if num < min then min = num
+const calcTempAmplitude = function (temps) {
+  // loop in array
+  for (let i = 0; i < temps.length; i++) {
+    // console.log(temps[i]);
+    const numToTest = temps[i];
+    // if num < min then min = num
 
-// if num > max then max = num
+    if (typeof numToTest != "number") {
+      continue;
+    }
+    console.log(typeof numToTest);
+    debugger;
+    if (numToTest < min) min = numToTest;
+    if (numToTest > max) max = numToTest;
+  }
+  return max - min;
+};
+
+console.log(calcTempAmplitude(temperatures));
+
+// function now needs to implement two functionalitys.
+
+// merge two arrays
+
+const calTempAmplitudeMultiArrays = function (arr1, arr2) {
+  const megaArray = arr1.concat(arr2);
+  return calcTempAmplitude(megaArray);
+};
+console.log(calTempAmplitudeMultiArrays(temperatures, temperatures2));
+
+// DEbugging
+const measureKelvin = function () {
+  const measures = {
+    type: "temp",
+    unit: "celsius",
+    value: Number(prompt("degrees celsius:")),
+  };
+  console.log(measures);
+  console.table(measures);
+
+  const kelvin = measures.value + 273;
+  return kelvin;
+};
+
+console.log(measureKelvin());
