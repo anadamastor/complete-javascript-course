@@ -18,15 +18,25 @@ const current1El = document.getElementById('current--1');
 const newGame = document.querySelector('.btn--new');
 
 // Initial default values
-score0El.textContent = 0;
-score1El.textContent = 0;
-diceEl.classList.add('hidden');
-let playing = true;
 
-let scores = [0, 0]; // final scores which accumulate
+let playing, scores, activePlayer, currentScore;
 
-let currentScore = 0;
-let activePlayer = 0; // we start with first player
+const init = function () {
+  score0El.textContent = 0;
+  score1El.textContent = 0;
+  current0El.textContent = 0;
+  current1El.textContent = 0;
+  diceEl.classList.add('hidden');
+  playing = true;
+  scores = [0, 0];
+  activePlayer = 0;
+  currentScore = 0;
+  player1El.classList.remove('player--winner');
+  player0El.classList.remove('player--winner');
+  player0El.classList.add('player--active');
+  player1El.classList.remove('player--active');
+};
+init();
 
 const switchPlayer = function () {
   //switch to next player (FROM ZERO TO ONE)
@@ -49,7 +59,7 @@ btnRoll.addEventListener('click', function () {
 
     // 3-check if 1 > reset score
     if (dice !== 1) {
-      //add dice to current score.
+      //add dice to current score.hhhh
       currentScore += dice;
       document.getElementById(`current--${activePlayer}`).textContent =
         currentScore;
@@ -82,16 +92,4 @@ btnHold.addEventListener('click', function () {
   }
 });
 
-newGame.addEventListener('click', function () {
-  document.querySelector(`.player--1`).classList.remove('player--active');
-  document.querySelector(`.player--1`).classList.remove('player--winner');
-  document.querySelector(`.player--0`).classList.remove('player--active');
-  document.querySelector(`.player--0`).classList.remove('player--winner');
-  playing = true;
-  score0El.textContent = 0;
-  score1El.textContent = 0;
-
-  diceEl.classList.add('hidden');
-  scores = [0, 0];
-  activePlayer = 0;
-});
+newGame.addEventListener('click', init);
