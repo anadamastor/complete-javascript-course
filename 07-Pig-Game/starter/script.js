@@ -93,4 +93,5 @@ newGame.addEventListener('click', function () {
 
   diceEl.classList.add('hidden');
   scores = [0, 0];
+  activePlayer = 0;
 });
