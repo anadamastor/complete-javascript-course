@@ -461,3 +461,6 @@ console.log(entries); // transform object in
 for (const [key, { open, close }] of entries) {
   console.log(`On ${key} we open at ${open} and close at ${close}`);
 }
+// ------------------
+console.log('116 - SETS -----------------');
+// COLLECTION OF UNIQIE VALUES - NO DUPLICATES!
