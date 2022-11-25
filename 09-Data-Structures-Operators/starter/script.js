@@ -461,6 +461,128 @@ console.log(entries); // transform object in
 for (const [key, { open, close }] of entries) {
   console.log(`On ${key} we open at ${open} and close at ${close}`);
 }
+
 // ------------------
 console.log('116 - SETS -----------------');
 // COLLECTION OF UNIQIE VALUES - NO DUPLICATES!
+
+const ordersSet = new Set(['paste', 'pizza', 'pizza', 'pizza', 'risotto']);
+console.log(ordersSet);
+// >> Set(3) {'paste', 'pizza', 'risotto'}
+
+// Remember: strings are iterables!
+console.log(new Set('ervis'));
+// Set(5) {'e', 'r', 'v', 'i', 's'}
+
+console.log(ordersSet.size);
+// > unique elements
+
+// check if eleement is present in a set
+console.log(ordersSet.has('pizza'));
+// > true
+
+// add element
+ordersSet.add('Garlic Bread');
+ordersSet.add('Garlic Bread');
+console.log(ordersSet);
+// Set(4) {'paste', 'pizza', 'risotto', 'Garlic Bread'}
+
+//delete element
+ordersSet.delete('risotto');
+console.log(ordersSet);
+// Set(3) {'paste', 'pizza', 'Garlic Bread'}
+
+//Retrieve values in a set: you cannot get sets out of a set, you do not need it actually. THey're not ordered values and unique
+
+// ordersSet.clear();
+// console.log(ordersSet);
+// Set(0) {size: 0}
+
+// Since they are iterables,you can loop in a set.
+for (const order of ordersSet) {
+  console.log(order);
+}
+// paste
+// pizza
+// Garlic Bread
+
+// SETS are used to try unique values of arrays
+const staff = ['waiter', 'chef', 'waiter', 'manager', 'chef', 'waiter'];
+const staffUnique = [...new Set(staff)];
+console.log(staffUnique);
+//Set(3) {'waiter', 'chef', 'manager'}
+// (3)[('waiter', 'chef', 'manager')]; with the spread operator
+// now I want to convert it in array. Spread operator works on all iterables
+
+console.log(
+  new Set(['waiter', 'chef', 'waiter', 'manager', 'chef', 'waiter']).size
+);
+// 3
+
+console.log(new Set('asdfjklsdfjkasfiuy').size);
+// 10
+
+// ----------------------------------
+// 117 - MAPS FUNDAMENTALS
+// ----------------------------------
+
+console.log('117 - MAPS FUNDAMENTALS-----------------');
+
+const rest = new Map();
+
+// to populate the map:
+rest.set('name', 'Cassico Italiano');
+rest.set(1, 'Firenze');
+console.log(rest.set(2, 'Firenze')); // this will update the map but also returns it so you can use console log directly
+// Map(3) {'name' => 'Cassico Italiano', 1 => 'Firenze', 2 => 'Firenze'}
+
+// You can chain sets to add more sets since it calls the updated map.
+rest
+  .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+  .set('open', 11)
+  .set('close', 23)
+  .set(true, 'we are open')
+  .set(false, 'we are closed');
+console.log(rest);
+//Map(6) {'name' => 'Cassico Italiano', 1 => 'Firenze', 2 => 'Firenze', 'categories' => Array(4), 'open' => 11,'close' => 23}
+
+// get items from map
+console.log(rest.get('name'));
+// Cassico Italiano
+console.log(rest.get(true));
+// we are open
+
+const time = 21;
+console.log(rest.get(time > rest.get('open') && time < rest.get(close)));
+// we are open
+
+console.log(rest.has('categories'));
+// true
+
+// deleting key named 2
+rest.delete(2);
+console.log(rest);
+//Map(7) {'name' => 'Cassico Italiano', 1 => 'Firenze', 'categories' => Array(4), 'open' => 11, 'close' => 23, …}
+
+console.log(rest.size);
+// 7
+console.log(rest.clear());
+// undefined
+
+// array as key within a map
+rest.set([1, 2], 'test');
+console.log(rest);
+// Map(1) {Array(2) [1, 2] => 'test'}
+console.log(rest.get([1, 2])); // this does not retrieve test, it returns undefined.
+//  These two arrays (the ones used to set() and the other one to get())are not the same object in memory. You need to use a variable with the same array to call stuff within a map.
+const arraa = [1, 2];
+rest.set(arraa, 'test');
+console.log(rest.get(arraa));
+// test
+
+// we can select elements from the dom and then save tem as keys in the map.
+rest.set(document.querySelector('h1'), 'Heading');
+console.log(document.querySelector('h1'));
+
+console.log(rest);
+// h1 => 'Heading'
