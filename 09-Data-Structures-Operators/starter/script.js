@@ -667,8 +667,6 @@ console.log(plane[0]);
 console.log('directly from string'[1]);
 // i
 
-
-
 // METHODS for strings
 console.log(airline.indexOf('r'));
 // 6
@@ -720,3 +718,77 @@ console.log(new String('jonas')); // js transforms the string into objexts, alte
 console.log('122 - WORKING WITH STRINGS - 2');
 // --------------------------------------------------------------------
 // --------------------------------------------------------------------
+console.log(airline.toLowerCase());
+// > tap air portugal
+console.log(airline.toUpperCase());
+// TAP AIR PORTUGAL
+
+// Fix capitalisation in name
+const passenger = 'erViS';
+const passengerLower = passenger.toLowerCase();
+
+const passengerFixed =
+  passengerLower[0].toUpperCase() + passengerLower.slice(1);
+
+console.log(passengerFixed);
+// Ervis
+
+// comparing emails
+const email = 'hello@jonas.io';
+const loginEmailo = '  Hello@jonas.io \n';
+
+const lowerEmail = email.toLowerCase();
+// trim() removes whitespaces
+const trimmedEmail = lowerEmail.trim();
+console.log(trimmedEmail);
+// hello@jonas.io
+
+// the above can be done in one line
+const normalisedEmail = loginEmailo.toLowerCase().trim();
+console.log(normalisedEmail);
+// hello@jonas.io
+
+// Replacing parts of strings
+const priceGB = '288,97£';
+const priceUS = priceGB.replace('£', '$').replace(',', '.');
+console.log(priceUS);
+// 288.97$
+
+const announcement =
+  'all passengers come to boarding door 23, boarding door 23';
+console.log(announcement.replace('door', 'gate')); // it only replaced the first occurrence.
+// all passengers come to boarding gate 23, boarding door 23
+console.log(announcement.replaceAll('door', 'gate')); // it works!
+// ll passengers come to boarding gate 23, boarding gate 23
+
+// reg expression
+console.log(announcement.replace(/door/g, 'gate')); // stands for global and // are needed for the regex.
+
+// BOOLEANS
+const plane1 = 'Airbus A320neo';
+console.log(plane1.includes('43')); // somewhere in the string
+// false
+
+console.log(plane1.startsWith('Air')); // at the beginning of the string.
+// true
+
+if (plane1.startsWith('Airbus') && plane1.endsWith('neo')) {
+  console.log('this is a new plane');
+}
+// this is a new plane
+
+// Exercise
+const checkBaggage = function (items) {
+  const baggage = items.toLowerCase();
+  if (baggage.includes('knife') || baggage.includes('gun')) {
+    console.log('ALERT');
+  } else {
+    console.log('you can go');
+  }
+};
+checkBaggage('I have a laptop, some Food ana pocket Knife');
+// alert
+checkBaggage('Socks and camera');
+// you can go
+checkBaggage('Got some snacks and a gun for protection');
+// alert
