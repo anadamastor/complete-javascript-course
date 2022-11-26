@@ -586,3 +586,73 @@ console.log(document.querySelector('h1'));
 
 console.log(rest);
 // h1 => 'Heading'
+
+// --------------------------------------------------------------------
+// --------------------------------------------------------------------
+console.log('118 - MAPS ITERATION');
+// --------------------------------------------------------------------
+// --------------------------------------------------------------------
+// OTHER way to populate maps instead of using set()
+
+const question = new Map([
+  ['question', 'What is the best programming langiage in the world?'],
+  [1, 'C'],
+  [2, 'Java'],
+  [3, 'Javascript'],
+  ['correct', 3],
+  [true, 'correct'],
+  [false, 'try again'],
+]);
+console.table(question);
+// 0: {"question" => "what is the best programming langiage in the world?"}
+// 1: {1 => "C"}
+// 2: {2 => "Java"}
+// 3: {3 => "Javascript"}
+// 4: {"correct" => 3}
+// 5: {true => "correct"}
+// 6: {false => "try again"}
+
+//convert object to map, they have the same structure
+console.log(Object.entries(openingHours));
+// (3) [Array(2), Array(2), Array(2)]
+const hoursMap = new Map(Object.entries(openingHours));
+console.log(hoursMap);
+//Map(3) {'tue' => {…}, 'fri' => {…}, 'sat' => {…}}
+
+// QUIZ GAME!!!!!!!!!!!
+//iteration: possible on maps as they are iterables.
+console.log(question.get('question'));
+
+for (const [key, value] of question) {
+  // logging only keys that are numbers
+  if (typeof key === 'number') console.log(`Answer ${key}: ${value}`);
+}
+// Answer 1: C
+// Answer 2: Java
+// Answer 3: Javascript
+
+const answer = Number(prompt('Your answer?'));
+console.log(answer);
+
+//check if answer is Correct
+answer === question.get('correct')
+  ? console.log('CORRECT!')
+  : console.log('Wrong!!!');
+
+// a better way to do it is using the boolean keys within the map?
+console.log(question.get(answer === question.get('correct')));
+
+// convert map to array
+console.log([...question]);
+// you have an array of arrays of key,value pair
+
+console.log(question.entries());
+console.log(question.values());
+console.log(question.keys());
+// all of these return iterators, you have to spread them in order to have arrays
+
+// --------------------------------------------------------------------
+// --------------------------------------------------------------------
+console.log('118 - MAPS ITERATION');
+// --------------------------------------------------------------------
+// --------------------------------------------------------------------
