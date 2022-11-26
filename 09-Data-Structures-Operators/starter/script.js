@@ -792,3 +792,112 @@ checkBaggage('Socks and camera');
 // you can go
 checkBaggage('Got some snacks and a gun for protection');
 // alert
+
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+console.log('123 - WORKING WITH STRINGS - 3');
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+
+// split()
+console.log('a-very-nice-string'.split('-'));
+// returns an array with each splitted
+// (4)[('a', 'very', 'nice', 'string')];
+
+const [firstName, lastName] = 'Ervis Lapi'.split(' ');
+console.log(firstName, lastName);
+// Ervis Lapi
+
+// join() - opposite of split, merges and array with anything you feed
+const newName = ['MR', firstName, lastName.toUpperCase()].join('=');
+console.log(newName);
+// MR=Ervis=LAPI
+
+// -----------------------------------------------------------------------------------------------
+
+const capitalizeName = function (name) {
+  let splitNames = name.split(' ');
+  console.log(splitNames);
+  const namesUpper = [];
+
+  // created an empty array which is then saving the capitalised names
+  // using push()
+  for (const nameSplitted of splitNames) {
+    namesUpper.push(
+      nameSplitted.toLowerCase()[0].toUpperCase() +
+        nameSplitted.toLowerCase().slice(1)
+    );
+  }
+  console.log(namesUpper.join(' '));
+
+  // alternative method for the exercise above
+  const namesUpperZ = [];
+  for (let namez of splitNames) {
+    console.log(namez);
+
+    const namezFixed =
+      (namez[0] === namez[0].toUpperCase()
+        ? namez[0]
+        : namez[0].toUpperCase()) + namez.slice(1);
+    namesUpperZ.push(namezFixed);
+  }
+  console.log('THIS IS NEW METHOD', namesUpperZ.join(' '));
+};
+capitalizeName('jessica ann smith davis');
+// Jessica Ann Smith Davis
+// THIS IS NEW METHOD Jessica Ann Smith Davis
+
+capitalizeName('ervis lapi');
+// Ervis Lapi
+// THIS IS NEW METHOD Ervis Lapi
+
+// ====================================================================
+// PADDING a string (adding characters until has a certain length.)
+// will populate the stringt with // until it gets to 23 chars, placed at the beginning.
+// ====================================================================
+
+const message = 'Goto gate 23!';
+console.log(message.padStart(23, '='));
+// ==========Goto gate 23!
+console.log(message.padEnd(23, '='));
+// Goto gate 23!==========
+
+const maskCreditCard = function (number) {
+  // this converts a number in a string. When one of the
+  // operands is a string, it will convert all the operands
+  const str = number + '';
+  console.log(str);
+
+  const last = str.slice(-4);
+  console.log(last.padStart(str.length, '*'));
+};
+
+maskCreditCard(1231412412412123);
+// ************2123
+
+maskCreditCard(12314121234412412123);
+// ****************3000
+
+// ====================================================================
+// repeat() - repeats the strings in a mega string
+// ====================================================================
+
+const message6 = 'Bad weather... all depeartures are delayed... ';
+console.log(message6.repeat(5));
+
+// Bad weather... all depeartures are delayed... Bad weather... all depeartures are delayed... Bad weather... all depeartures are delayed... Bad weather... all depeartures are delayed... Bad weather... all depeartures are delayed...
+
+const planesInLine = function (n) {
+  console.log(`THere are ${n} planes in line`.repeat(n));
+};
+
+planesInLine(3);
+// THere are 3 planes in line THere are 3 planes in line THere are 3 planes in line
+
+
+// More ways to convert number to string
+
+// String(n)
+// n.toString()
+// ""+n
+// n+""
