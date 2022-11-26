@@ -631,7 +631,8 @@ for (const [key, value] of question) {
 // Answer 2: Java
 // Answer 3: Javascript
 
-const answer = Number(prompt('Your answer?'));
+// const answer = Number(prompt('Your answer?'));
+const answer = 3;
 console.log(answer);
 
 //check if answer is Correct
@@ -653,6 +654,69 @@ console.log(question.keys());
 
 // --------------------------------------------------------------------
 // --------------------------------------------------------------------
-console.log('119 - WHICH DATA STRUCTURE TO USE);
+console.log('121 - WORKING WITH STRINGS');
+// --------------------------------------------------------------------
+// --------------------------------------------------------------------
+const airline = 'TAP Air Portugal';
+const plane = 'A320';
+
+// SIMILARLy to array can get letters with indexes
+console.log(plane[0]);
+// >> A
+
+console.log('directly from string'[1]);
+// i
+
+
+
+// METHODS for strings
+console.log(airline.indexOf('r'));
+// 6
+console.log(airline.lastIndexOf('r'));
+// 10
+console.log(airline.indexOf('Portugal'));
+// 8
+
+// SLICE method
+console.log(airline.slice(4)); // 4 is the beginning where the extraction will start
+// > Air Portugal - substring taking AIR
+// string are primitive and immutable - this action is not changing instanceof. Slice() always return a new string
+
+console.log(airline.slice(4, 7)); // end value (7) is not included in the string
+// > Air
+
+console.log(airline.slice(0, airline.indexOf(' ')));
+// > TAP
+console.log(airline.slice(airline.lastIndexOf(' ') + 1));
+// > Portugal
+
+console.log(airline.slice(-2)); // use negative to start from the end
+// > al
+
+console.log(airline.slice(1, -1));
+// > AP Air Portuga
+
+// EXERCISE
+const checkMiddleSeat = function (seat) {
+  // B and E ar middle seats
+  const seatLetter = seat.slice(-1);
+  return seatLetter === 'B' || seatLetter === 'E'
+    ? 'IT IS A MIDDLE SEAT'
+    : 'NOT A MIDDLE SEAT';
+};
+
+console.log(checkMiddleSeat('11B'));
+// > IT IS A MIDDLE SEAT
+
+console.log(checkMiddleSeat('11A'));
+// > NOT A MIDDLE SEAT
+
+// Strings are primitives that have methods. WHen we call a method on a String, that will be converted to a string object with the same object. THis process is called boxing
+// this is what happens when we call a method on a string:
+console.log(new String('jonas')); // js transforms the string into objexts, alters it and then converts it back to string.
+
+// --------------------------------------------------------------------
+// --------------------------------------------------------------------
+console.log('122 - WORKING WITH STRINGS - 2');
 // --------------------------------------------------------------------
 // --------------------------------------------------------------------
