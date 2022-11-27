@@ -894,10 +894,45 @@ const planesInLine = function (n) {
 planesInLine(3);
 // THere are 3 planes in line THere are 3 planes in line THere are 3 planes in line
 
-
 // More ways to convert number to string
 
 // String(n)
 // n.toString()
 // ""+n
 // n+""
+
+// ====================================================================
+console.log('125 - String Methods Practice');
+// ====================================================================
+
+const flightsPractice =
+  '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
+
+// 🔴 Delayed Departure from FAO to TXL (11h25)
+//              Arrival from BRU to FAO (11h45)
+//   🔴 Delayed Arrival from HEL to FAO (12h05)
+//            Departure from FAO to LIS (12h30)
+
+const singleFlight = flightsPractice.split('+');
+console.log(singleFlight);
+// ['_Delayed_Departure;fao93766109;txl2133758440;11:25', '_Arrival;bru0943384722;fao93766109;11:45', '_Delayed_Arrival;hel7439299980;fao93766109;12:05', '_Departure;fao93766109;lis2323639855;12:30']
+
+for (const flight of singleFlight) {
+  // array destroctutureing to gather the single lines
+  const [type, from, to, time] = flight.split(';');
+  const fixedType = type.split('_').join(' ').trim(); // can use replaceAll("_"," ")
+  const fixedFrom = from.slice(0, 3).toUpperCase();
+  const fixedTo = to.slice(0, 3).toUpperCase();
+  const fixedTime = time;
+  const bubble = fixedType.toLocaleLowerCase().includes('delayed') ? '🔴' : '';
+  console.log(
+    `${bubble} ${fixedType} from ${fixedFrom} to ${fixedTo} (${fixedTime})`.padStart(
+      45
+    )
+  );
+}
+
+  // 🔴 Delayed Departure from FAO to TXL (11:25)
+  //              Arrival from BRU to FAO (11:45)
+  //   🔴 Delayed Arrival from HEL to FAO (12:05)
+  //            Departure from FAO to LIS (12:30)
