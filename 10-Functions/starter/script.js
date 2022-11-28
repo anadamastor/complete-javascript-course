@@ -61,7 +61,7 @@ const checkIn = function (flightNum, passenger) {
   }
 };
 
-checkIn(flight, jonas);
+// checkIn(flight, jonas); // turned off because annyoing
 // Check in!
 
 console.log(flight);
@@ -75,7 +75,7 @@ const newPassport = function (person) {
 };
 
 newPassport(jonas);
-checkIn(flight, jonas);
+// checkIn(flight, jonas); // turned off, is annyoing
 // Wrong Passport
 
 // JS DOES NOT HAVE PASS BY REFERENCE - ONLY DOES PASS BY VALUE
@@ -92,17 +92,98 @@ console.log('130 - FIRST CLASS AND HIGHER-ORDER FUNCTIONS');
 // This is only possible because of first-class functions
 
 // addEventListener is a higher order function that takes a function in. Callback because it will be called later by the function as soon as the click happens.
-// Functions return also other functions. 
+// Functions return also other functions.
 
 // First class function is a feature that a programming language has or not. It means that all functions are  values. This allows for higher-order functions to exist.
 
 // ====================================================================
 console.log('131 - FUNCTION ACCEPTING CALLBACK FUNCTIONS');
 // ====================================================================
+const oneWord = function (str) {
+  return str.replace(/ /g, '').toLowerCase();
+};
+
+const upperFirstWord = function (str) {
+  // rest pattern
+  const [first, ...others] = str.split(' ');
+  // destructuring
+  return [first.toUpperCase(), ...others].join(' ');
+};
+
+// Higher order function
+const transformer = function (str, fn) {
+  console.log(`Original string :${str}`);
+  console.log(`Transformed string :${fn(str)}`);
+
+  // functions have their own methods and properties. Below you can find the name of that function.
+  console.log(`Transformed by: ${fn.name}`);
+};
+// calling the higher order function I want to transform the string below using the upperFirstWord function passed as a parameter. We are not calling that function
+transformer('Javascript is the best', upperFirstWord);
+// Original string :Javascript is the best
+// Transformed string :JAVASCRIPT is the best
+// Transformed by: upperFirstWord
+
+// callback-functions because we do not call them ourselves but is the higher end function calling it when needed.
+transformer('Javascript is the best', oneWord);
+// Original string :Javascript is the best
+// Transformed string :javascriptisthebest
+// Transformed by: oneWord
+
+const high5 = function () {
+  console.log('🖐');
+};
+
+// high5 is the callback function or evend handler or event listener.
+document.body.addEventListener('click', high5);
+// 🖐
+['Jonas', 'martha', 'adam'].forEach[high5];
+
+// Callback functions allows for abstraction. It means that we hide the detail of some code implementation. Our main transformer is only concerned with the transformation but does not care how it happens as the lower level functions handle this.
+
+const myName = 'Ervis';
+
+const transformer2 = function (name, fn) {
+  console.log(fn(name));
+};
+
+const repeateStr = function (str) {
+  return str.repeat(4);
+};
+
+const firstLetter = str => str[0];
+
+transformer2(myName, repeateStr);
+// ErvisErvisErvisErvis
+
+transformer2(myName, firstLetter);
+// E
 
 // ====================================================================
 console.log('132 - FUNCTIONS RETURNING FUNCTIONS');
 // ====================================================================
+// const greet = function (greeting) {
+//   return function (name) {
+//     console.log(`${greeting} ${name}`);
+//   };
+// };
+
+// rewriting the above in arrow functions. THIS IS MADNESS
+const greet = greeting => name => console.log(`${greeting} ${name}`);
+
+
+const greeterHey = greet('hey'); // will return a function
+greeterHey('Jonas');
+// hey Jonas
+
+greeterHey('Ervis');
+// hey Ervis
+
+// this works because of closures (will see later)
+
+// you can also combine the above in one single line
+greet('Hello')('Jonas');
+// Hello Jonas
 
 // ====================================================================
 console.log('133 - THE CALL AND APPLY METHODS');
