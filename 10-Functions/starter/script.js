@@ -399,6 +399,27 @@ poll.displayResults.bind({ answers: [5, 2, 3] }, 'string')();
 // ====================================================================
 console.log('136 - IMMEDIATELY INVOKED FUNCTION EXPRESSIONS - IIFE');
 // ====================================================================
+// Sometimes we need a function that is used only once and never more.
+// We want to execute it immediately and run it.
+// These are used because they create a scope.
+
+// By wrapping it in () it becomes an expression and using () after it, we'll run it instantly.
+(function () {
+  console.log('this will never run again');
+})();
+
+(() => 'this will also never run again')();
+
+// all data inside a scope is encapsulated - and protected.
+
+// But also we can creaert a block to create a scope
+{
+  // these variables cannot be called outside of the block
+  const name = 'ervis';
+  const sap = 'game of';
+}
+
+// Immediately invopked function expressions are not used much more for data privacy because of blocks which can do exactly the same thing.
 
 // ====================================================================
 console.log('137 - CLOSURES');
