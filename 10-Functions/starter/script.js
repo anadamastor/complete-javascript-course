@@ -424,11 +424,87 @@ console.log('136 - IMMEDIATELY INVOKED FUNCTION EXPRESSIONS - IIFE');
 // ====================================================================
 console.log('137 - CLOSURES');
 // ====================================================================
+// This function will create the closure. This is a feature we do not create manually like new arrays or functions - closures happens automatically in certain situations which we need only to understand.
+const secureBooking = function () {
+  let passengerCount = 0;
+
+  return function () {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  };
+};
+
+const booker = secureBooking(); // will return a function stored in booker
+
+// let's call the function: how could the booker function update the passengerCount when the execution context is no longer in the stack??
+booker();
+// 1 passengers
+booker();
+// 2 passengers
+booker();
+// 3 passengers
+
+// Print more details about a
+console.dir(booker);
 
 // ====================================================================
 console.log('138 - MORE CLOSURES EXAMPLES');
 // ====================================================================
+// We can create closures in different ways, not only returnin a function from a function
 
+// EXAMPLE 1
+// f is defined in the global scope but saved a function within the g() scope. So it still was able to access to a within the variable environment of the g function!!!
+let f;
+
+const g = function () {
+  const a = 23;
+  f = function () {
+    // f will become this function
+    console.log(a * 2);
+  };
+};
+
+const h = function () {
+  const b = 777;
+  // f() reborn - > clousre updates
+  f = function () {
+    console.log(b * 2);
+  };
+};
+
+g();
+f(); // closed over the variable environment of the g() function
+// 46
+
+h(); // f variable assigned again: the old closure is upate with the reassignment.
+f(); // f() reassigned as above: f closed over the h() variable environment here. But g() var environment is not accessible anymore.
+// 15554;
+
+// The closure changes as the variable(function is reassigned.)
+
+// EXAMPLE 2
+const boardPassengers = function (n, wait) {
+  const perGroup = n / 3;
+
+  setTimeout(function () {
+    console.log(`We are now boarding all ${n} passengers`);
+    console.log(`There are 3 groups, each with ${perGroup} passengers`);
+  }, 1000);
+
+  // this will not wait for the function above to happen
+  console.log(`Will start boarding in ${wait} seconds`);
+};
+
+// this is global scope but the retarded function will completely ignore it because closure has priority over global scope.
+const perGroup = 1000;
+
+boardPassengers(180, 3);
+// We are now boarding all 180 passengers
+// There are 3 groups, each with 60 passengers
+
+// The callback function in the setTimeout was run completely indipendent from the boardPassengers functions -> creation of closure where that function can have access to the environment variable.
+
+// EXAMPK
 // ====================================================================
 console.log('139 - CODING CHALlENGE');
 // ====================================================================
