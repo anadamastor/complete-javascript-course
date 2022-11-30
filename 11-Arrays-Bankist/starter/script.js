@@ -71,55 +71,152 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 
-('use strict');
 // ====================================================================
-console.log('128 - Default parameters');
+console.log('142. Simple array methods');
+// ====================================================================
+// Methods are methods we could call to objects: arrays have methods, hence they are objects.
+
+let arr = ['a', 'b', 'c', 'd', 'e'];
+
+// SLICE
+// similar to strings. Take slices of array without changing it.
+console.log(arr.slice(2, 5)); // length of the output will be end -start
+// (3) ['c', 'd', 'e']
+
+console.log(arr.slice(-2));
+// (2)[('d', 'e')];
+
+// if used without argument it can create a shallow copy of an array., as per the spread operator
+console.log(arr.slice());
+console.log(...arr);
+
+// SPLICE
+// like slice but changes the original array
+console.log(arr.splice(2, 2)); // first paramater is index, second is  HOW MANY ITEMS to delete.
+// (2)[('c', 'd')];
+
+// REVERSE
+// Mutated original array
+let arr2 = ['j', 'i', '2', 'g', 'h'];
+console.log(arr2.reverse());
+// (5) ['h', 'g', '2', 'i', 'j']
+
+// CONCAT
+const letters = arr.concat(arr2);
+console.log(letters);
+//(8) ['a', 'b', 'e', 'h', 'g', '2', 'i', 'j']
+// same as
+console.log([...arr, ...arr2]);
+// (8)[('a', 'b', 'e', 'h', 'g', '2', 'i', 'j')];
+
+// JOIN
+console.log(letters.join('-'));
+// a - b - e - h - g - 2 - i - j;
+
+// ====================================================================
+console.log('143. The new at Method2'.padEnd(10, '.'));
+// ====================================================================
+const arr3 = [11, 33, 44];
+console.log(arr3[0]); // can do exactly the same thin with a method.
+console.log(arr3.at(0));
+
+// last element of array
+console.log(arr3[arr3.length - 1]);
+console.log(arr3.slice(-1)[0]);
+// muche easier with at method:
+console.log(arr3.at(-1));
+
+// It also works on strings
+console.log('ervis'.at(-1));
+// s
+
+// ====================================================================
+console.log('144. Looping Arrays: forEach');
+// ====================================================================
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// loop to print stuff
+for (const movement of movements) {
+  if (movement > 0) {
+    console.log(`You deposited ${movement}`);
+  } else {
+    console.log(`You withdrew ${Math.abs(movement)}`);
+  }
+}
+
+// ====================================================================
+console.log('145. forEach With Maps and Sets');
 // ====================================================================
 
 // ====================================================================
-console.log('129 - HOW PASSING PARAMATERS WORKS');
+console.log('146. PROJECT: "Bankist" App');
 // ====================================================================
 
 // ====================================================================
-console.log('130 - FIRST CLASS AND HIGHER-ORDER FUNCTIONS');
+console.log('147. Creating DOM Elements');
 // ====================================================================
 
 // ====================================================================
-console.log('131 - FUNCTION ACCEPTING CALLBACK FUNCTIONS');
+console.log('148. Coding Challenge #1');
 // ====================================================================
 
 // ====================================================================
-console.log('132 - FUNCTIONS RETURNING FUNCTIONS');
+console.log('149. Data Transformations: map, filter, reduce');
 // ====================================================================
 
 // ====================================================================
-console.log('133 - THE CALL AND APPLY METHODS');
+console.log('149. Data Transformations: map, filter, reduce');
 // ====================================================================
 
 // ====================================================================
-console.log('134 - THE BIND METHOD');
+console.log('150. The map Method');
 // ====================================================================
 
 // ====================================================================
-console.log('135 - CODING CHALLENGE 1');
+console.log('151. Computing Usernames');
 // ====================================================================
 
 // ====================================================================
-console.log('136 - IMMEDIATELY INVOKED FUNCTION EXPRESSIONS - IIFE');
+console.log('152. The filter Method');
 // ====================================================================
 
 // ====================================================================
-console.log('137 - CLOSURES');
+console.log('153. The reduce Method');
 // ====================================================================
-
 // ====================================================================
-console.log('138 - MORE CLOSURES EXAMPLES');
+console.log('153. The reduce Method');
 // ====================================================================
-
 // ====================================================================
-console.log('139 - CODING CHALlENGE');
+console.log('154. Coding Challenge #2');
+// ====================================================================
+// ====================================================================
+console.log('156. Coding Challenge #3');
+// ====================================================================
+// ====================================================================
+console.log('157. The find Method');
+// ====================================================================
+// ====================================================================
+console.log('159. Implementing Transfers');
+// ====================================================================
+// ====================================================================
+console.log('160. The findIndex Method');
+// ====================================================================
+// ====================================================================
+console.log('161. some and every');
+// ====================================================================
+// ====================================================================
+console.log('164. More Ways of Creating and Filling Arrays');
+// ====================================================================
+// ====================================================================
+console.log('165. Summary: Which Array Method to Use?');
+// ====================================================================
+// ====================================================================
+console.log('166. Array Methods Practice');
+// ====================================================================
+// ====================================================================
+console.log('167. Coding Challenge #4');
 // ====================================================================

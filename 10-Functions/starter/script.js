@@ -508,3 +508,26 @@ boardPassengers(180, 3);
 // ====================================================================
 console.log('139 - CODING CHALlENGE');
 // ====================================================================
+
+// Coding Challenge #2
+
+/* 
+This is more of a thinking challenge than a coding challenge 🤓
+
+Take the IIFE below and at the end of the function, attach an event listener that changes the color of the selected h1 element ('header') to blue, each time the BODY element is clicked. Do NOT select the h1 element again!
+
+And now explain to YOURSELF (or someone around you) WHY this worked! Take all the time you need. Think about WHEN exactly the callback function is executed, and what that means for the variables involved in this example.
+
+GOOD LUCK 😀
+*/
+
+(function () {
+  const header = document.querySelector('h1');
+  header.style.color = 'red';
+  document
+    .querySelector('body')
+    .addEventListener('click', () => (header.style.color = 'blue'));
+})();
+
+// this is working because the header is a variable within the variable environment of the place where the function is defined. So we have access to it. We are adding an event listener to the function that even if the main function is not anymore within the stack it will always access values of it's birth place (the closure).
+// The immediately invoked function is gone once we have the opprtunity to run the event hanlder. THe event handler is attached to the body element now.
