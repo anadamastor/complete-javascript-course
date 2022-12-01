@@ -140,13 +140,45 @@ console.log('144. Looping Arrays: forEach');
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // loop to print stuff
-for (const movement of movements) {
+// for (const movement of movements) {
+// using entries() on the array we can get the index.
+for (const [index, movement] of movements.entries()) {
   if (movement > 0) {
     console.log(`You deposited ${movement}`);
   } else {
     console.log(`You withdrew ${Math.abs(movement)}`);
   }
 }
+
+// FOREACH
+// needs a callback function in order to tell it what to do. forEach will call it at every loop of the array. At every iteration the callback function will receive the item as it's current argument
+
+movements.forEach(function (movement) {
+  // in this case movement will be equal to the item of that iteration.
+  if (movement > 0) {
+    console.log(`You deposited ${movement}`);
+  } else {
+    console.log(`You withdrew ${Math.abs(movement)}`);
+  }
+});
+
+
+// ACCESS INDEX AND ARRAY and INDEX
+// for each pass the foreach passes the whole array and the index. Order of the arguments is important.
+// first argument is always the current element of that iteration
+// second one is always the index, and third one is the whole array.
+movements.forEach(function (movement, index, array) {
+  // in this case movement will be equal to the item of that iteration.
+  if (movement > 0) {
+    console.log(`Movement ${index+1}: You deposited ${movement}`);
+  } else {
+    console.log(`Movement ${index+1}: You withdrew ${Math.abs(movement)}`);
+  }
+});
+// Movement 1: You deposited 200
+// Movement 2: You deposited 450
+
+// YOU CANNOT BREAK A FOREACH LOOP - IF YOU NEED TO DO THAT USE A FOR LOOP
 
 // ====================================================================
 console.log('145. forEach With Maps and Sets');
