@@ -499,9 +499,43 @@ calcDisplaySummary(movements);
 // ====================================================================
 console.log('156. Coding Challenge #3');
 // ====================================================================
+// Coding Challenge #3
+
+/* 
+Rewrite the 'calcAverageHumanAge' function from the previous challenge, but this time as an arrow function, and using chaining!
+
+TEST DATA 1: [5, 2, 4, 1, 15, 8, 3]
+TEST DATA 2: [16, 6, 10, 5, 6, 1, 4]
+
+GOOD LUCK 😀
+*/
+
+const calcAverageHumanAge2 = ages => {
+  const humanAges = ages
+    .map(age => (age <= 2 ? 2 * age : 16 + age * 4))
+    .filter(dogAgeHuman => dogAgeHuman > 18)
+    .reduce((acc, curr, i, arr) => acc + curr / arr.length, 0);
+  return humanAges;
+};
+
+console.log(calcAverageHumanAge2([5, 2, 4, 1, 15, 8, 3]));
+//44
+
 // ====================================================================
 console.log('157. The find Method');
 // ====================================================================
+// Loops over the array and retrieve an elemtn
+// Needs a callback function that returns a boolean.
+// Find will return the first true item.
+
+const firstWithdrawal = movements.find(mov => mov < 0);
+console.log(firstWithdrawal);
+// 400
+
+const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+console.log(account);
+// {owner: 'Jessica Davis', movements: Array(8), interestRate: 1.5, pin: 2222, username: 'jd'}
+
 // ====================================================================
 console.log('159. Implementing Transfers');
 // ====================================================================
