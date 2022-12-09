@@ -300,9 +300,6 @@ const checkAdultOrPuppy = dogAge =>
   dogAge >= 3 ? 'an adult' : 'still a puppy 🐶';
 
 checkDogs(dogsJulia, dogsKate);
-// ====================================================================
-console.log('149. Data Transformations: map, filter, reduce');
-// ====================================================================
 
 // ====================================================================
 console.log('149. Data Transformations: map, filter, reduce');
@@ -311,6 +308,33 @@ console.log('149. Data Transformations: map, filter, reduce');
 // ====================================================================
 console.log('150. The map Method');
 // ====================================================================
+// Returns a mapped array: you need to save it somewhere.
+const movements2 = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const eurToUsd = 1.1;
+
+// you need to save the returned array from map to a new var
+const movmUSD = movements2.map(money => money * eurToUsd);
+
+console.log(movmUSD);
+//(8) [220.00000000000003, 495.00000000000006, -440.00000000000006,
+// 3300.0000000000005, -715.0000000000001, -143, 77, 1430.0000000000002]
+
+// you have access to index as well, like forEach()
+const movDesciption = movements2.map((mov, i, arr) => {
+  // template litteral
+  if (mov > 0) {
+    return `Movement ${i + 1}: You deposited ${mov}`;
+  } else {
+    return `Movement ${i + 1}: You withdrew ${Math.abs(mov)}`;
+  }
+});
+
+console.log(movDesciption);
+//(8) ['Movement 1: You deposited 200', 'Movement 2: You deposited 450', '
+// Movement 3: You withdrew 400', 'Movement 4: You deposited 3000',
+// 'Movement 5: You withdrew 650', 'Movement 6: You withdrew 130',
+// 'Movement 7: You deposited 70', 'Movement 8: You deposited 1300']
 
 // ====================================================================
 console.log('151. Computing Usernames');
