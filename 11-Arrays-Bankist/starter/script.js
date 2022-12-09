@@ -339,20 +339,163 @@ console.log(movDesciption);
 // ====================================================================
 console.log('151. Computing Usernames');
 // ====================================================================
+// we need username with initial of users names.
+const user = 'ervis lapi'; // I want to have el
+const createUsernames = accs => {
+  // side effect of foreach. We are not returning a new value, we are working on the accounts objects.
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(word => word[0])
+      .join('');
+  });
+};
+createUsernames(accounts);
+console.log(accounts);
+// wlp
 
 // ====================================================================
 console.log('152. The filter Method');
 // ====================================================================
+// filter values matching the criteria of the callback function
+const deposits = movements2.filter(function (mov) {
+  return mov > 0;
+});
+console.log(movements2);
+// (8)[(200, 450, -400, 3000, -650, -130, 70, 1300)];
+console.log(deposits);
+// (5)[(200, 450, 3000, 70, 1300)];
+
+const withdrawals = movements2.filter(move => move < 0);
+console.log(withdrawals);
+// (3) [-400, -650, -130]
 
 // ====================================================================
 console.log('153. The reduce Method');
 // ====================================================================
-// ====================================================================
-console.log('153. The reduce Method');
-// ====================================================================
+// Essentially boils down all elemtns in array to a single value
+console.log(movements2);
+// first paramenter is always current, index, and arr
+const balance = movements2.reduce(function (accumulator, current, index, arr) {
+  // need to return the value so it will increment in the next value
+  console.log(`Iteration number ${index}: acc ${accumulator}`);
+  console.log(`Iteration number ${index}: curr ${current}`);
+
+  return accumulator + current;
+}, 0); // this is the initial value of the accumulator.
+console.log(balance);
+
+// Iteration number 0: acc 0 /// initial value
+// Iteration number 0: curr 200
+// Iteration number 1: acc 200 / after first iteration acc value
+// Iteration number 1: curr 450
+// Iteration number 2: acc 650
+
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => {
+    return acc + mov;
+  }, 0);
+  labelBalance.textContent = `${balance} EUR`;
+};
+calcDisplayBalance(movements);
+// 3840
+
+// maximum value using reduce
+const maxValue = movements2.reduce(function (acc, curr) {
+  return curr > acc ? curr : acc;
+}, movements[0]);
+console.log(`your maximmun deposit is ${maxValue}`);
+// your maximmun deposit is 3000
+
 // ====================================================================
 console.log('154. Coding Challenge #2');
 // ====================================================================
+// Coding Challenge #2
+
+/* 
+Let's go back to Julia and Kate's study about dogs. This time, they want to convert dog ages to human ages and calculate the average age of the dogs in their study.
+
+Create a function 'calcAverageHumanAge', which accepts an arrays of dog's ages ('ages'), and does the following things in order:
+
+1. Calculate the dog age in human years using the following formula: if the dog is <= 2 years old, humanAge = 2 * dogAge. If the dog is > 2 years old, humanAge = 16 + dogAge * 4.
+2. Exclude all dogs that are less than 18 human years old (which is the same as keeping dogs that are at least 18 years old)
+3. Calculate the average human age of all adult dogs (you should already know from other challenges how we calculate averages 😉)
+4. Run the function for both test datasets
+
+TEST DATA 1: [5, 2, 4, 1, 15, 8, 3]
+TEST DATA 2: [16, 6, 10, 5, 6, 1, 4]
+
+GOOD LUCK 😀
+*/
+const calcAverageHumanAge = ages => {
+  const humanAges = ages.map(age => {
+    return age <= 2 ? 2 * age : 16 + age * 4;
+  });
+
+  const adultDogs = humanAges.filter(dogAgeHuman => {
+    return dogAgeHuman > 18;
+  });
+
+  const avg = adultDogs.reduce((acc, curr, i, arr) => {
+    return acc + curr / arr.length;
+  }, 0);
+  console.log(avg);
+  // 220
+  return avg;
+};
+
+console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
+// 44
+
+// ====================================================================
+console.log('155. Chaining methods');
+// ====================================================================
+// as long as a method returns an array you can chain them. Reduce ends the cycle because it returns am array.
+
+// Pipeline of methods
+const totalDepositisUSd = movements
+  .filter(move => move > 0)
+  .map((move, i, arr) => {
+    console.log(arr); // this is how you can have access to the current array.
+
+    return move * eurToUsd;
+  })
+  // .map(move => move * eurToUsd)
+  .reduce((acc, curr) => acc + curr, 0);
+
+console.log(totalDepositisUSd);
+//5522
+
+const calcDisplaySummary = movements => {
+  // let sumIn = 0;
+  // let sumOut = 0;
+
+  const incomes = movements
+    .filter(x => x > 0)
+    .reduce((acc, curr) => acc + curr);
+
+  const expenses = movements
+    .filter(x => x < 0)
+    .reduce((acc, curr) => acc + curr);
+  // movements.forEach(mov => {
+  //   mov > 0 ? (sumIn += mov) : (sumOut += mov);
+  // });
+
+  labelSumIn.textContent = `${incomes}€`;
+  labelSumOut.textContent = `${Math.abs(expenses)}€`;
+
+  // calculating interest only on deposits
+  const interest = movements
+    .filter(x => x > 0)
+    .map(deposit => deposit * 0.012)
+    .filter(int => int >= 1) // interest calculated only if it greater than one eur
+    .reduce((acc, interest) => acc + interest, 0);
+
+  labelSumInterest.innerHTML = `${interest}€`;
+};
+calcDisplaySummary(movements);
+
 // ====================================================================
 console.log('156. Coding Challenge #3');
 // ====================================================================
