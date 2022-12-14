@@ -164,7 +164,7 @@ btnLogin.addEventListener('click', function (e) {
   );
   console.log(currentAccount);
 
-  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+  if (currentAccount?.pin === +inputLoginPin.value) {
     // Display UI and message
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(' ')[0]
@@ -182,7 +182,7 @@ btnLogin.addEventListener('click', function (e) {
 
 btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
-  const amount = Number(inputTransferAmount.value);
+  const amount = +inputTransferAmount.value;
   const receiverAcc = accounts.find(
     acc => acc.username === inputTransferTo.value
   );
@@ -206,7 +206,7 @@ btnTransfer.addEventListener('click', function (e) {
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
 
-  const amount = Number(inputLoanAmount.value);
+  const amount = +inputLoanAmount.value;
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     // Add movement
@@ -223,7 +223,7 @@ btnClose.addEventListener('click', function (e) {
 
   if (
     inputCloseUsername.value === currentAccount.username &&
-    Number(inputClosePin.value) === currentAccount.pin
+    +inputClosePin.value === currentAccount.pin
   ) {
     const index = accounts.findIndex(
       acc => acc.username === currentAccount.username
@@ -255,6 +255,62 @@ btnSort.addEventListener('click', function (e) {
 // ====================================================================
 console.log('170. Converting and Checking Numbers');
 // ====================================================================
+// All numebrs aer represented as floating points number
+console.log(23 === 23.0);
+// true
+
+console.log(0.1 + 0.2);
+//0.30000000000000004
+
+// numbers are only stored in binary form - it is very hard to represent some fractions in base 10
+// binary base 10 - 0 to 9 - 1/10 = 0.1 EASY - 10/3 = 3.33333
+
+console.log(0.1 + 0.2 === 0.3);
+// false
+
+// + will do type coercion and convert to number
+// Instead of converting to number with =:
+console.log(Number('23'));
+console.log(+23);
+
+// Parsing a number from string - it will automatically identify the numbers inside it
+// The second argument is the numberic base - better to specify every time
+console.log(Number.parseInt('2322px', 10));
+// 2322
+
+// if you have fractions is better to use parseFLoat
+console.log(Number.parseFloat('2.5rem', 10));
+// 2.5
+
+// check if any value is a number
+
+console.log(Number.isNaN(20));
+// false
+console.log(Number.isNaN('20'));
+// false - this is a regular value (string in this case)
+
+console.log(+'20x');
+// Nan
+
+console.log(Number.isNaN(+'20x'));
+// true - this is a NaN
+
+console.log(Number.isNaN(23 / 0));
+// true - infinite is Nan
+
+// USE THIS TO CHECK IF THIS IS A NUMBER OR inInteger
+console.log(Number.isFinite(20));
+// true
+console.log(Number.isFinite('20'));
+// false
+
+console.log(Number.isInteger(20));
+// true
+console.log(Number.isInteger(20.0));
+// true
+console.log(Number.isInteger(20 / 0));
+// false
+
 // ====================================================================
 console.log('171. Math and Rounding');
 // ====================================================================
@@ -270,7 +326,7 @@ console.log('174. Working with BigInt');
 // ====================================================================
 console.log('175. Creating Dates');
 // ====================================================================
-v; // ====================================================================
+// ====================================================================
 console.log('176. Adding Dates to "Bankist" App');
 // ====================================================================
 // ====================================================================
