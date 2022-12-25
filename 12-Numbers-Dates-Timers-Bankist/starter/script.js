@@ -22,8 +22,8 @@ const account1 = {
     '2020-04-01T10:17:24.185Z',
     '2020-05-08T14:11:59.604Z',
     '2020-05-27T17:01:17.194Z',
-    '2020-07-11T23:36:17.929Z',
-    '2020-07-12T10:51:36.790Z',
+    '2037-03-04T23:36:17.929Z',
+    '2037-03-05T10:51:36.790Z',
   ],
   currency: 'EUR',
   locale: 'pt-PT', // de-DE
@@ -80,20 +80,42 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 /////////////////////////////////////////////////
 // Functions
+const formatDate = (date, locale) => {
+  const calcDaysPast = (date1, date2) =>
+    Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
 
-const displayMovements = function (movements, sort = false) {
+  const dayPassed = calcDaysPast(new Date(), date);
+  console.log('DAYYYYYSPOASSED', dayPassed);
+  if (dayPassed === 0) return 'Today';
+  if (dayPassed === 1) return 'Yesterday';
+  if (dayPassed <= 7) return `${dayPassed} days ago`;
+
+  // const day = `${date.getDate()}`.padStart(2, 0);
+  // const month = `${date.getMonth() + 1}`.padStart(2, 0);
+  // const year = `${date.getFullYear()}`.padStart(2, 0);
+  // const hour = `${date.getHours()}`.padStart(2, 0);
+  // const min = `${date.getMinutes()}`.padStart(2, 0);
+  // return `${day}/${month}/${year}, ${hour}:${min}`;
+  return new Intl.DateTimeFormat(locale).format(date);
+};
+
+const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
 
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  const movs = sort
+    ? acc.movements.slice().sort((a, b) => a - b)
+    : acc.movements;
 
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
-
+    // looping in another array using the index of the first loop
+    const displayDate = new Date(acc.movementsDates[i]);
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
+        <div class="date">${formatDate(displayDate, acc.locale)}</div>
         <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
     `;
@@ -142,7 +164,7 @@ createUsernames(accounts);
 
 const updateUI = function (acc) {
   // Display movements
-  displayMovements(acc.movements);
+  displayMovements(acc);
 
   // Display balance
   calcDisplayBalance(acc);
@@ -154,6 +176,16 @@ const updateUI = function (acc) {
 ///////////////////////////////////////
 // Event handlers
 let currentAccount;
+
+// fake login
+currentAccount = account1;
+updateUI(currentAccount);
+containerApp.style.opacity = 100;
+
+const nowApp = new Date().toISOString();
+console.log(nowApp);
+
+// labelDate.textContent = formatDate(nowApp);
 
 btnLogin.addEventListener('click', function (e) {
   // Prevent form from submitting
@@ -198,6 +230,10 @@ btnTransfer.addEventListener('click', function (e) {
     currentAccount.movements.push(-amount);
     receiverAcc.movements.push(amount);
 
+    // ADD TRANSFER DATE
+    currentAccount.movementsDates.push(new Date().toISOString());
+    receiverAcc.movementsDates.push(new Date().toISOString());
+
     // Update UI
     updateUI(currentAccount);
   }
@@ -211,7 +247,8 @@ btnLoan.addEventListener('click', function (e) {
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     // Add movement
     currentAccount.movements.push(amount);
-
+    // ADD TRANSFER DATE
+    currentAccount.movementsDates.push(new Date().toISOString());
     // Update UI
     updateUI(currentAccount);
   }
@@ -244,7 +281,7 @@ btnClose.addEventListener('click', function (e) {
 let sorted = false;
 btnSort.addEventListener('click', function (e) {
   e.preventDefault();
-  displayMovements(currentAccount.movements, !sorted);
+  displayMovements(currentAccount, !sorted);
   sorted = !sorted;
 });
 
@@ -367,24 +404,173 @@ console.log(+(2.7).toFixed(2));
 // ====================================================================
 console.log('172. The Remainder Operator');
 // ====================================================================
+console.log(5 % 2);
+// 1 remainder
+
+// check if even or not
+const checkEven = number => {
+  number % 2 == 0 ? console.log('even') : console.log('odd');
+};
+checkEven(2);
+//even
+
+checkEven(1);
+//odd
+
+labelBalance.addEventListener('click', () => {
+  // Selecting all the rows of the movements and deconsutring to nodelist into an array so I can use foreach()
+  [...document.querySelectorAll('.movements__row')].forEach(function (row, i) {
+    if (i % 2 === 0) row.style.backgroundColor = 'orangered';
+    if (i % 3 === 0) row.style.backgroundColor = 'blue';
+  });
+});
+
 // ====================================================================
 console.log('173. Numeric Separators');
 // ====================================================================
+const diameter = 28_560_000_000; // too many zeros. Need a thousands separator.
+
+// Numeric separator can be placed anywhere.Math
+
+console.log(diameter);
+// 28560000000
+
+const priceCents = 345_99;
+console.log(priceCents);
+// 34599
+
+const transferFee = 15_00;
+
+const PI = 3.1415; // NOT ALLOWED at the beginning of number and end.
+console.log(PI);
+
+console.log(Number('23_0000')); // not working with not num,ber
+// NaN
 // ====================================================================
 console.log('174. Working with BigInt');
 // ====================================================================
+// SPecial type of int, primite variable introdced in js2020
+console.log(2 ** 53 - 1);
+// 9007199254740991 biggest js can represent
+
+console.log(Number.MAX_SAFE_INTEGER);
+// 9007199254740991;
+
+// Bigger numbers lose precision
+console.log(31231231231231231231423423n); // converts it to bigInt
+console.log(BigInt(31231231231231231231423423));
+
+const huge = 23123131231231312312n;
+const num23 = 23;
+// console.log(huge * num23); // cannot multiplay bigint witn int - need to convert it
+// Uncaught TypeError: Cannot mix BigInt and other types, use explicit conversions
+console.log(huge * BigInt(23)); // cannot multiplay bigint witn int - need to
+
 // ====================================================================
 console.log('175. Creating Dates');
 // ====================================================================
+// 4 ways of creating dates
+const now = new Date();
+console.log(now);
+// Tue Dec 20 2022 15:43:16 GMT+0000 (Greenwich Mean Time)
+
+// You can define the date you want. JS will parse the string and write it properly but do not do it - is unreliable.
+
+console.log(new Date('December 23, 2015'));
+// 00Wed Dec 23 2015 00:00:00 GMT+0000 (Greenwich Mean Time)
+
+// These dates are created by js it is safe to use it
+console.log(new Date(account1.movementsDates[0]));
+
+// month is 0 based
+console.log(new Date(2345, 10, 19, 23, 23, 4));
+// Mon Nov 19 2345 23:23:04 GMT+0000 (Greenwich Mean Time)
+
+// It will autocorrent if the days is not correct.
+
+console.log(new Date(0)); // unix time
+// Thu Jan 01 1970 01:00:00 GMT+0100 (Greenwich Mean Time)
+
+// days to ms
+console.log(new Date(3 * 24 * 60 * 60 * 1000));
+//Sun Jan 04 1970 01:00:00 GMT+0100 (Greenwich Mean Time)
+
+//Dates are objects which have their own methods.
+
+const future = new Date(2037, 10, 19, 15, 23);
+console.log(future);
+console.log(future.getFullYear());
+// 2037
+
+console.log(future.getMonth());
+// 10 (remove 1)
+console.log(future.getDay());
+console.log(future.getDate());
+console.log(future.getSeconds());
+// 0
+console.log(future.toISOString()); // national standars
+// 2037-11-19T15:23:00.000Z
+
+//timestamp= milliseconds passed since the january first 1970
+console.log(future.getTime());
+// 2142256980000
+console.log(new Date(2142256980000));
+// Thu Nov 19 2037 15:23:00 GMT+0000 (Greenwich Mean Time)
+
+// get timestamp for now
+console.log(Date.now());
+
+future.setFullYear(2040); // you can set month and other stuff
+console.log(future);
+// Mon Nov 19 2040 15:23:00 GMT+0000 (Greenwich Mean Time)
+
 // ====================================================================
 console.log('176. Adding Dates to "Bankist" App');
 // ====================================================================
+// see above in the app
 // ====================================================================
 console.log('177. Operations With Dates');
 // ====================================================================
+// calculation with dates to count days difference.
+// result is timestamps in milliseconds
+
+const future2 = new Date(2037, 10, 19, 15, 23);
+console.log(Number(future2));
+// 2142256980000
+console.log(+future2);
+// 2142256980000
+
+const calcDaysPast = (date1, date2) =>
+  Math.abs((date2 - date1) / (1000 * 60 * 60 * 24));
+
+const days1 = calcDaysPast(new Date(2037, 3, 14), new Date(2037, 3, 4));
+console.log(days1);
+// 864000000 in ms and 10 days with division from ms to days
+
 // ====================================================================
 console.log('178. Internationalizing Dates (Intl)');
 // ====================================================================
+// experimentd API
+const now2 = new Date();
+console.log('NOW2', now2);
+
+const options = {
+  hour: 'numeric',
+  minute: 'numeric',
+  day: 'numeric',
+  month: 'long',
+};
+labelDate.textContent = new Intl.DateTimeFormat(
+  currentAccount.locale,
+  options
+).format(now2); // local formatter for local country.
+// As of 25 de dezembro às 13:47
+
+// getting it for user
+const locale = navigator.language;
+console.log(locale);
+// en-GB
+
 // ====================================================================
 console.log('179. Internationalizing Numbers (Intl)');
 // ====================================================================
