@@ -297,9 +297,50 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 });
 // ====================================================================
 console.log('193. DOM Traversing');
-
 // ====================================================================
-console.log('194. Building a Tabbed Component');
+const h1 = document.querySelector('h1');
+
+// going downwards: selecting child
+console.log(h1.querySelectorAll('.highlight')); // selects children of h1 elements
+console.log(h1.childNodes); // nodes can be anything (every single node of every single type inside the parent)
+// NodeList(9) [text, comment, text, span.highlight, text, br, text, span.highlight, text]
+console.log(h1.children); //it's an array
+// HTMLCollection(3) [span.highlight, br, span.highlight]
+
+// editing the first or last element of html collection
+h1.firstElementChild.style.color = 'white';
+h1.lastElementChild.style.color = 'orangered';
+
+// GOING UPWARDS - SELECTING PARENTS
+console.log(h1.parentNode);
+// div.header__title
+console.log(h1.parentElement);
+// div.header__title
+
+// select closest parent element with the header class // IMPORTANT!!!
+h1.closest('.header').style.background = 'var(--gradient-secondary)';
+// selecting the same
+h1.closest('h1').style.background = 'var(--gradient-primary)';
+
+// GOING SIDEWAYS: SIBLINGS
+console.log(h1.previousElementSibling);
+// null
+console.log(h1.nextElementSibling);
+// h4
+
+console.log(h1.previousSibling);
+console.log(h1.nextSibling);
+
+// getting all of the siblings in an HTML collection
+console.log(h1.parentElement.children);
+// this will scale everything else a part from h1 within the parent element
+[...h1.parentElement.children].forEach(function (el) {
+  if (el !== h1) {
+    el.style.transform = 'scale(0.5)';
+  }
+}),
+  // ====================================================================
+  console.log('194. Building a Tabbed Component');
 
 // ====================================================================
 console.log('195. Passing Arguments to Event Handlers');
