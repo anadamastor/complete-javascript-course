@@ -318,9 +318,9 @@ console.log(h1.parentElement);
 // div.header__title
 
 // select closest parent element with the header class // IMPORTANT!!!
-h1.closest('.header').style.background = 'var(--gradient-secondary)';
+// h1.closest('.header').style.background = 'var(--gradient-secondary)';
 // selecting the same
-h1.closest('h1').style.background = 'var(--gradient-primary)';
+// h1.closest('h1').style.background = 'var(--gradient-primary)';
 
 // GOING SIDEWAYS: SIBLINGS
 console.log(h1.previousElementSibling);
@@ -338,36 +338,301 @@ console.log(h1.parentElement.children);
   if (el !== h1) {
     el.style.transform = 'scale(0.5)';
   }
-}),
-  // ====================================================================
-  console.log('194. Building a Tabbed Component');
+});
 
 // ====================================================================
+console.log('194. Building a Tabbed Component');
+//====================================================================
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+// too slow:
+tabs.forEach(t => t.addEventListener('click', () => console.log('TAB')));
+tabsContainer.addEventListener('click', function (e) {
+  // this finds the CLOSEST PARENT element with operations__tab key
+  const clicked = e.target.closest('.operations__tab');
+  console.log(clicked);
+
+  // GUARD CLAUSE: when nothing is clicked (outside of buttons)
+  if (!clicked) return;
+
+  // active tab
+  // remove actibe button for the other ones
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+  // remove class of active tab (for all of them)
+  tabsContent.forEach(c => c.classList.remove('operations__content--active'));
+
+  //Active tab
+  clicked.classList.add('operations__tab--active');
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
+// ====================================================================
 console.log('195. Passing Arguments to Event Handlers');
+// ====================================================================
+// menu fade animation
+const nav = document.querySelector('.nav');
+
+//mouse enter does not bubble
+
+const handleHover = function (e) {
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+
+    // queryselector in this parent to search only within its children
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    // select logo contained in nav from the link
+    const logo = link.closest('.nav').querySelector('img');
+    siblings.forEach(el => {
+      if (el !== link) {
+        el.style.opacity = this;
+      }
+    });
+    logo.style.opacity = this;
+  }
+};
+
+// passing argument into handler( which only have one, the classic e)
+// handleHover now needs some paramenters.USING A FUNCTION THAT CALLS ANOTHER METHOD.
+// The first argument passed to the bind() method is assigned to the 'this' keyword inside of the bound function
+nav.addEventListener('mouseover', handleHover.bind(0.5));
+
+nav.addEventListener('mouseout', handleHover.bind(1));
 
 // ====================================================================
 console.log('196. Implementing a Sticky Navigation: The Scroll Event');
+// ====================================================================
+// Sticky navigation
+const initialCoords = section1.getBoundingClientRect();
+console.log(initialCoords);
+
+// event fired off every time we scroll (NOT EFFICIENT scroll fires everytime)
+window.addEventListener('scroll', function () {
+  // We want nav sticky when reaching the first section (above const)
+  if (window.scrollY > initialCoords.top) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+});
 
 // ====================================================================
 console.log('197. A Better Way: The Intersection Observer API');
+// ====================================================================
+// Allows our code to observe changes to the way a certain element interesect another element or the way it instersect the viewport.
+
+//Check when section intersects the viewport.
+
+// these will go inside the IntObs
+// This callback function will be called each time that the observed element (so our target) is intersecating the root element that we define in options.
+const obsCallback = function (entries, observer) {
+  // entries array of threshold array
+  entries.forEach(entry => {
+    // console.log(entry);
+    // IntersectionObserverEntry {time: 25938.099999999627, rootBounds: DOMRectReadOnly, boundingClientRect: DOMRectReadOnly, intersectionRect: DOMRectReadOnly, isIntersecting: false, …}
+  });
+};
+const obsOptions = {
+  root: null,
+  threshold: [0, 0.2],
+  // The degree of intersection between the target element and its root is the intersection ratio. This is a representation of the percentage of the target element which is visible as a value between 0.0 and 1.0
+};
+
+const observer = new IntersectionObserver(obsCallback, obsOptions);
+// target or observed element
+observer.observe(section1);
+
+const headerToObserve = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect().height;
+
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  console.log(entry);
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  // 90 pixel before the threshold is reached
+  rootMargin: `-${navHeight}px`,
+});
+headerObserver.observe(headerToObserve);
 
 // ====================================================================
 console.log('198. Revealing Elements on Scroll');
+// ====================================================================
+// reveal section while they appear
+// Sections are by default hidden and traslated in y now thanks to css
+
+// REVEAL SECTION
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+  // stop observing
+  observer.unobserve(entry.target);
+};
+
+const allSectionsObs = document.querySelectorAll('.section');
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15,
+});
+
+allSectionsObs.forEach(function (section) {
+  sectionObserver.observe(section);
+  // section.classList.add('section--hidden');
+});
 
 // ====================================================================
 console.log('199. Lazy Loading Images');
-
 // ====================================================================
+// STRATEGY TO OPTIMISE IMAGE LOADING
+// LOW RES and blurred INITIAL IMAGE loaded by default and the original image is on data-src.
 
+// LAZY LOADING
+
+// behaviour of the intersected object (entries)
+const loadHighResPic = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.src = entry.target.dataset.src;
+  entry.target.addEventListener('load', () =>
+    entry.target.classList.remove('lazy-img')
+  );
+};
+
+// Elements to lazy load and have the data-src class.
+const allPics = document.querySelectorAll('img[data-src]');
+console.log(allPics);
+
+// IntersectionObserver loads function and visibility rules
+const picObserver = new IntersectionObserver(loadHighResPic, {
+  root: null, // entire viewport
+  threshold: 0,
+  rootMargin: '+200px',
+});
+
+// adds observer to the pics
+allPics.forEach(function (pic) {
+  picObserver.observe(pic);
+});
 // ====================================================================
 console.log('200. Building a Slider Component: Part 1');
 // ====================================================================
-console.log('201. Building a Slider Component: Part 2');
 
+const slider = function () {
+  const slides = document.querySelectorAll('.slide');
+  // 0% 100% 200% 300% each movements
+  const btnLeft = document.querySelector('.slider__btn--left');
+  const btnRight = document.querySelector('.slider__btn--right');
+
+  let curSlide = 0;
+  // need this to stop at some point
+  const maxSlide = slides.length;
+
+  const goToSlide = function (slide) {
+    // takes the slide and moves it
+    slides.forEach(
+      (s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`)
+    );
+  };
+
+  const nextSlide = function () {
+    // works with the counter for the slide so you know where you are (next)
+    if (curSlide === maxSlide - 1) {
+      curSlide = 0;
+    } else {
+      curSlide++;
+    }
+    goToSlide(curSlide);
+    activateDot(curSlide);
+  };
+
+  const prevSlide = function () {
+    if (curSlide === 0) {
+      curSlide = maxSlide - 1;
+    } else {
+      curSlide--;
+    }
+    goToSlide(curSlide);
+    activateDot(curSlide);
+  };
+
+  // clicling right means we are moving the images by 100%
+  btnRight.addEventListener('click', nextSlide);
+  btnLeft.addEventListener('click', prevSlide);
+
+  // ====================================================================
+  console.log('201. Building a Slider Component: Part 2');
+  // ====================================================================
+  // keys to move around the thing
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') prevSlide();
+    // e.key === 'ArrowRight' && nextSlide(); // shortcirtuiting
+    if (e.key === 'ArrowRight') nextSlide();
+  });
+
+  const dotContainer = document.querySelector('.dots');
+
+  // creating dots
+  const createDots = function () {
+    slides.forEach(function (_, i) {
+      dotContainer.insertAdjacentHTML(
+        'beforeend',
+        `<button class = "dots__dot" data-slide="${i}"></button>`
+      );
+    });
+  };
+
+  // logis to slide and activate the right dot
+  dotContainer.addEventListener('click', function (e) {
+    if (e.target.classList.contains('dots__dot')) {
+      const { slide } = e.target.dataset;
+      goToSlide(slide);
+      activateDot(slide);
+    }
+  });
+
+  // change color of dot when active
+  const activateDot = function (slide) {
+    document
+      .querySelectorAll('.dots__dot')
+      .forEach(dot => dot.classList.remove('dots__dot--active'));
+    // selecting the approriate slide
+    document
+      .querySelector(`.dots__dot[data-slide="${slide}"]`)
+      .classList.add('dots__dot--active');
+  };
+
+  //
+  const init = function () {
+    goToSlide(0);
+    createDots();
+    activateDot(0);
+  };
+  init();
+};
+
+slider();
 // ====================================================================
 console.log('202. Lifecycle DOM Events');
+// ===================================================================
+document.addEventListener('DOMContentLoaded', function (e) {
+  console.log('HTML parsed and DOM tree built');
+});
+
+window.addEventListener('load', function (e) {
+  console.log('page fully loaded', e);
+});
+
+// Just before user leaves
+window.addEventListener('beforeunload', function (e) {
+  e.preventDefault(); //reqiured by some browsers
+  console.log(e);
+  e.returnValue = ''; // this will ask if you want to reload the page.
+});
 
 // ====================================================================
 console.log('203. Efficient Script Loading: defer and async');
-
 // ====================================================================
