@@ -319,9 +319,84 @@ console.log(ferrari.speed);
 // ====================================================================
 console.log('218. Inheritance Between "Classes": Constructor Functions');
 // ====================================================================
+const PersonNew = function (firstName, birthYear) {
+  console.log(this);
+  //   Person[[Prototype]]: Object (step 1)
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+};
+
+Person.prototype.calcAge = function () {
+  console.log(2100 - this.birthYear);
+};
+
+const Student = function (firstName, birthYear, course) {
+  // this.firstName = firstName;
+  // this.birthYear = birthYear; // DRY
+  // NEED TO CALL A FUNCTION AND SPECIFY THE THIS KEYWORD
+  Person.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+Student.prototype.introduce = function () {
+  console.log(`Muy name is ${this.name} and I study ${this.course}`);
+};
+const mikle = new Student('MIke', 222, 'CS');
+console.log(mikle);
+// Student {firstName: 'MIke', birthYear: 222, course: 'CS'}
+mikle.introduce();
+// Muy name is undefined and I study CS
+
 // ====================================================================
 console.log('219. Coding Challenge #3');
 // ====================================================================
+// Coding Challenge #3
+
+/* 
+1. Use a constructor function to implement an Electric Car (called EV) as a CHILD "class" of Car. Besides a make and current speed, the EV also has the current battery charge in % ('charge' property);
+2. Implement a 'chargeBattery' method which takes an argument 'chargeTo' and sets the battery charge to 'chargeTo';
+3. Implement an 'accelerate' method that will increase the car's speed by 20, and decrease the charge by 1%. Then log a message like this: 'Tesla going at 140 km/h, with a charge of 22%';
+4. Create an electric car object and experiment with calling 'accelerate', 'brake' and 'chargeBattery' (charge to 90%). Notice what happens when you 'accelerate'! HINT: Review the definiton of polymorphism 😉
+
+DATA CAR 1: 'Tesla' going at 120 km/h, with a charge of 23%
+
+GOOD LUCK 😀
+*/
+
+const CarDos = function (make, speed) {
+  this.make = make;
+  this.speed = speed;
+};
+
+CarDos.prototype.accelerate = function () {
+  this.speed -= 10;
+  this.charge -= 1;
+  console.log(
+    `Tesla going at ${this.speed}% km/h, with a charge of ${this.charge}%`
+  );
+};
+
+const ElectricCar = function (make, speed, charge) {
+  // this is how you inherit from Cardos
+  CarDos.call(this, make, speed);
+  this.charge = charge;
+  console.log(this);
+};
+// link prototypes
+ElectricCar.prototype = Object.create(Car.prototype);
+
+ElectricCar.prototype.chargeBattery = function (chargeTo) {
+  this.charge = chargeTo;
+  console.log(`this car ${this.make}has beed charged to ${this.charge}`);
+};
+
+const carele = new ElectricCar('he', 200, 10);
+// ElectricCar {make: 'he', speed: 200}
+
+carele.chargeBattery(100);
+//this car hehas beed charged to 100
+
+carele.accelerate();
 // ====================================================================
 console.log('220. Inheritance Between "Classes": ES6 Classes');
 // ====================================================================
