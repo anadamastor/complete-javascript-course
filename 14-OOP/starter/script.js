@@ -553,10 +553,12 @@ class Account {
   }
   deposit(val) {
     this._movements.push(val);
+    return this;
   }
 
   withdraw(val) {
     this.deposit(-val);
+    return this;
   }
 
   _approvedLoan() {
@@ -571,6 +573,7 @@ class Account {
     if (this._approvedLoan) {
       this.deposit(val);
       console.log(`Loan approved`);
+      return this;
     }
   }
 }
@@ -589,14 +592,115 @@ console.log(acc1.getMovements());
 // ====================================================================
 console.log('223. Encapsulation: Protected Properties and Methods');
 // ====================================================================
+class Account223 {
+  // 1) Public fields - saved in the class (not prototype) and visible in all the instances created from here.
+  locale = navigator.language;
+
+  // 2) Private Fields. Propertiesy truly not accessible from outside using "#".
+  // this will be protected for real
+  #movements = [];
+  #pin;
+
+  // 3) pubblic methods.
+  // All methods used so far.
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this.#pin = pin;
+    // this._movements = [];
+    // this.local = navigator.language;
+    console.log(`thanks for opening an account ${owner}`);
+  }
+  deposit(val) {
+    this.#movements.push(val);
+  }
+
+  // 4) Private methods
+  #approvedLoan() {
+    return true;
+  }
+}
 // ====================================================================
 console.log('224. Encapsulation: Private Class Fields and Methods');
 // ====================================================================
+// Chaining methods. In order to realign object you need to return in the method the object itself
+acc1
+  .deposit(100)
+  .deposit(300)
+  .deposit(12)
+  .withdraw(23)
+  .requestLoan(234)
+  .withdraw(234);
+console.log(acc1);
+
 // ====================================================================
 console.log('225. Chaining Methods');
 // ====================================================================
 // ====================================================================
 console.log('226. ES6 Classes Summary');
 // ====================================================================
+
 // ====================================================================
 console.log('227. Coding Challenge #4');
+// Coding Challenge #4
+
+/* 
+1. Re-create challenge #3, but this time using ES6 classes: create an 'EVCl' child class of the 'CarCl' class
+2. Make the 'charge' property private;
+3. Implement the ability to chain the 'accelerate' and 'chargeBattery' methods of this class, and also update the 'brake' method in the 'CarCl' class. They experiment with chining!
+
+DATA CAR 1: 'Rivian' going at 120 km/h, with a charge of 23%
+
+GOOD LUCK 😀
+*/
+
+class FinalCar {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+  accelerate() {
+    this.speed += 10;
+    console.log(`after acceleration ${this.speed}`);
+  }
+  brake() {
+    this.speed -= 5;
+    console.log(`after brake ${this.speed}`);
+  }
+  get speedUS() {
+    return this.speed / 1.6;
+  }
+  set speedUS(speedSet) {
+    this.speed = speedSet * 1.6;
+  }
+}
+class FinalElectricCar extends FinalCar {
+  #charge;
+
+  constructor(make, speed, charge) {
+    super(make, speed);
+    this.#charge = charge;
+    console.log('EV car created!');
+  }
+
+  
+  chargeBattery(chargeValue) {
+    this.#charge += chargeValue;
+    return this;
+  }
+
+  accelerate() {
+    this.speed += 10;
+    console.log(`after acceleration ${this.speed}`);
+    return this;
+  }
+}
+
+const myFinalCar = new FinalCar('fiat', 200);
+console.log(myFinalCar);
+myFinalCar.brake();
+myFinalCar.accelerate();
+
+const myFinalCarEV = new FinalElectricCar('fiat2222', 100, 200);
+// EV car created!
+console.log(myFinalCarEV);
