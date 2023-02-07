@@ -683,7 +683,7 @@ class FinalElectricCar extends FinalCar {
     console.log('EV car created!');
   }
 
-  
+
   chargeBattery(chargeValue) {
     this.#charge += chargeValue;
     return this;
