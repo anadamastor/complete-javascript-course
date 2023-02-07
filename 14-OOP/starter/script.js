@@ -330,22 +330,44 @@ Person.prototype.calcAge = function () {
   console.log(2100 - this.birthYear);
 };
 
+// additional functionalities of the child class.
 const Student = function (firstName, birthYear, course) {
+  // The below is dublicate code - let's fix it.
+  // you can call the Person function.
+  // PersonNew(firstName,birthYear) // undefined
   // this.firstName = firstName;
   // this.birthYear = birthYear; // DRY
-  // NEED TO CALL A FUNCTION AND SPECIFY THE THIS KEYWORD
-  Person.call(this, firstName, birthYear);
+  // NEED TO CALL A FUNCTION AND SPECIFY THE THIS KEYWORD using .call() to be equal to Student.
+  PersonNew.call(this, firstName, birthYear);
   this.course = course;
 };
 
+console.log('before', Student.prototype);
+// constructor function
+
+// Linking prototype
+// manually define prototype inheritance. It will create an empty object, hence it has to be created before you extend student.
+Student.prototype = Object.create(Person.prototype);
+
+// You also need to fix the constructor manually by using Student.prototype.constructor = Student
+
+console.log('after', Student.prototype);
+// Person
+
+// You cant use Student.prototype = Person.prototype because we want two different prototypes, one extendding the other instead of being equal.
+
+// add a new behaviour to Student
 Student.prototype.introduce = function () {
   console.log(`Muy name is ${this.name} and I study ${this.course}`);
 };
-const mikle = new Student('MIke', 222, 'CS');
-console.log(mikle);
+
+const mike = new Student('mike', 222, 'CS');
+console.log(mike);
 // Student {firstName: 'MIke', birthYear: 222, course: 'CS'}
-mikle.introduce();
+mike.introduce();
 // Muy name is undefined and I study CS
+mike.calcAge(); // can run this because of the prototypes are now linked
+// 1878
 
 // ====================================================================
 console.log('219. Coding Challenge #3');
@@ -370,10 +392,13 @@ const CarDos = function (make, speed) {
 
 CarDos.prototype.accelerate = function () {
   this.speed -= 10;
-  this.charge -= 1;
-  console.log(
-    `Tesla going at ${this.speed}% km/h, with a charge of ${this.charge}%`
-  );
+  // this.charge -= 1;
+  console.log(`Tesla going at ${this.speed}% km/h`);
+};
+
+CarDos.prototype.brake = function () {
+  this.speed -= 10;
+  console.log(`Tesla going at ${this.speed}% km/h%`);
 };
 
 const ElectricCar = function (make, speed, charge) {
@@ -382,30 +407,185 @@ const ElectricCar = function (make, speed, charge) {
   this.charge = charge;
   console.log(this);
 };
-// link prototypes
-ElectricCar.prototype = Object.create(Car.prototype);
+
+// link prototypes: electric inherits from Car. It creates and empty object which has Car as a prototype.
+ElectricCar.prototype = Object.create(CarDos.prototype);
 
 ElectricCar.prototype.chargeBattery = function (chargeTo) {
   this.charge = chargeTo;
   console.log(`this car ${this.make}has beed charged to ${this.charge}`);
 };
 
+ElectricCar.prototype.accelerate = function () {
+  this.speed += 20;
+  this.charge--;
+  console.log(`this car ${this.make}has beed charged to ${this.charge}`);
+};
+
 const carele = new ElectricCar('he', 200, 10);
-// ElectricCar {make: 'he', speed: 200}
+// ElectricCar {make: 'he', speed: 200, charge: 10}
 
 carele.chargeBattery(100);
 //this car hehas beed charged to 100
 
 carele.accelerate();
+//210 oooook
+carele.brake();
+// this car hehas beed charged to 99
+console.log(carele);
+
 // ====================================================================
 console.log('220. Inheritance Between "Classes": ES6 Classes');
 // ====================================================================
+
+class PersonClass {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+
+  // this will be added to .prototype property
+  calcAge() {
+    console.log(2000 - this.birthYear);
+  }
+
+  get age() {
+    return 2000 - this.birthYear;
+  }
+
+  // same property that already exists
+  set fullName(name) {
+    console.log(name);
+
+    if (name.includes(' ')) this._fullName = name;
+    else alert(`${name} is not a full name`);
+  }
+  get fullName() {
+    return this._fullName;
+  }
+  static hey() {
+    console.log('hey there');
+    console.log(this);
+  }
+}
+// Classes are a layer of abstraction above constructors hiding what's happening behind the scenes. This happens using extends and super function.
+// Extends will link prototypes behind the scenes
+
+class StudenClass extends PersonClass {
+  constructor(fullName, birthYear, course) {
+    // this is the constructor function of the parent class
+    // must happen first otherwise this keywoard would not be possible.
+    super(fullName, birthYear);
+    this.course = course;
+  }
+
+  introduce() {
+    console.log(`Muy name is ${this.fullName} and I study ${this.course}`);
+  }
+
+  // we can overwrite a method of the parent class.
+  calcAge() {
+    console.log(
+      `I am ${this.fullName} and actually I am running this method from StudentClass overwriting PersonClass`
+    );
+  }
+}
+
+const martha = new StudenClass('Martha jones', 2012, 'Arts');
+martha.introduce();
+// Muy name is Martha jones and I study Arts
+
+martha.calcAge();
+// I am Martha jones and actually I am running this method from StudentClass overwriting PersonClass
+
 // ====================================================================
 console.log('221. Inheritance Between "Classes": Obj');
 // ====================================================================
+
+const PersonProto221 = {
+  calAge() {
+    console.log(2037 - this.birthYear);
+  },
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const steven221 = Object.create(PersonProto221);
+// PersonProto is a parent prototype of jay
+const StudentProto221 = Object.create(PersonProto221);
+
+// let's add some more attributes to studen
+StudentProto221.init = function (firstName, birthYear, course) {
+  // need to call the parent's init but using the this keyword related to children. Using .call(this,var1,vars2)
+  PersonProto221.init.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+StudentProto221.introduce = function () {
+  console.log(`hi my name is ${this.firstName}`);
+};
+
+const jay = Object.create(StudentProto221);
+
+jay.init('hay', 1020, 'hello');
+console.log(jay.course, jay.firstName);
+// hello hay
+
+// this method was added later to tehe studenproto.
+jay.introduce();
+// hi my name is hay
+
 // ====================================================================
 console.log('222. Another Class Example');
 // ====================================================================
+// you can define attributes without a specific value
+
+class Account {
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this._pin = pin;
+    this._movements = [];
+    this.local = navigator.language;
+    console.log(`thanks for opening an account ${owner}`);
+  }
+  deposit(val) {
+    this._movements.push(val);
+  }
+
+  withdraw(val) {
+    this.deposit(-val);
+  }
+
+  _approvedLoan() {
+    return true;
+  }
+
+  getMovements() {
+    return this._movements;
+  }
+
+  requestLoan(val) {
+    if (this._approvedLoan) {
+      this.deposit(val);
+      console.log(`Loan approved`);
+    }
+  }
+}
+
+const acc1 = new Account('joasn', 'eur', 1111);
+console.log(acc1);
+
+acc1.deposit(100);
+acc1.withdraw(20);
+
+acc1.requestLoan(10);
+// loan approved
+console.log(acc1.getMovements());
+// 3) [100, -20, 10]
+
 // ====================================================================
 console.log('223. Encapsulation: Protected Properties and Methods');
 // ====================================================================
