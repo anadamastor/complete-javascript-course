@@ -3,7 +3,9 @@
 // CREATING CLASSES
 class Workout {
   date = new Date();
-  id = (Date.now + '').slice(2);
+  id = Math.floor(Math.random() * 1001).toString();
+
+  clicks = 0;
   constructor(coords, distance, duration) {
     this.coords = coords;
     this.distance = distance;
@@ -17,6 +19,10 @@ class Workout {
       months[this.date.getMonth()]
     } ${this.date.getDate()}`;
   }
+
+  click() {
+    this.clicks++;
+  }
 }
 
 class Running extends Workout {
@@ -26,6 +32,7 @@ class Running extends Workout {
     this.cadence = cadence;
     this.calPace();
     this._setDescription();
+    console.log('this ID' + this.id);
   }
 
   calPace() {
@@ -41,6 +48,7 @@ class Cycling extends Workout {
     this.elevation = elevation;
     this._setDescription();
     this.calcSpeed();
+    console.log('this ID' + this.id);
   }
   calcSpeed() {
     this.speed = this.distance / (this.duration / 60);
@@ -48,8 +56,8 @@ class Cycling extends Workout {
   }
 }
 
-// const run1 = new Running([39, -12], 5.2, 24, 168);
-// const cycling1 = new Cycling([39, -12], 27, 298, 168);
+const run1 = new Running([39, -12], 5.2, 24, 168);
+const cycling1 = new Cycling([39, -12], 27, 298, 168);
 // console.log(run1, cycling1);
 
 //////////
@@ -67,6 +75,7 @@ const inputElevation = document.querySelector('.form__input--elevation');
 class App {
   // private instance attributes
   #map;
+  #mapZoomLevel = 13;
   #mapEvent;
   #workouts = [];
   constructor() {
@@ -77,6 +86,9 @@ class App {
 
     // changing the input form in case of cycling
     inputType.addEventListener('change', this._toggleElevationField);
+
+    // event listener to move map
+    containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
   }
 
   _newWorkout(e) {
@@ -112,6 +124,7 @@ class App {
       console.log(lat, lng);
 
       workout = new Running([lat, lng], distance, duration, cadence);
+      console.log(workout);
     }
 
     // IF CUCLING, CEARTE CYCLING OBJ
@@ -124,9 +137,11 @@ class App {
         return alert('inputs have to be positive numbers');
 
       workout = new Cycling([lat, lng], distance, duration, elevation);
+      console.log(workout);
     }
     // ADD NEW OBJECT TO WOTKOUT ARRAY
     this.#workouts.push(workout);
+    console.log(this.#workouts);
 
     //RENDER WORMOUT ON MAP
     this._renderWorkoutMarker(workout);
@@ -134,6 +149,9 @@ class App {
 
     // RENDER WORKOUT ON MAP
     this._renderWorkout(workout);
+
+    // hide form
+    this._hideForm();
   }
 
   _renderWorkout(workout) {
@@ -190,7 +208,9 @@ class App {
       maxWidth: 250,
       minWidth: 100,
       className: `${workout.type}-popup`,
-    }).setContent(`${workout.type}`);
+    }).setContent(
+      `${workout.description}  ${workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'}`
+    );
 
     L.marker(workout.coords).addTo(this.#map).bindPopup(newPopup).openPopup();
   }
@@ -219,7 +239,7 @@ class App {
     const { latitude, longitude } = position.coords;
 
     const coords = [latitude, longitude];
-    this.#map = L.map('map').setView(coords, 20);
+    this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
 
     // DISPLAY MARKER
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -230,6 +250,10 @@ class App {
 
     // show workout form on click
     this.#map.on('click', this._showForm.bind(this));
+
+    // this.#workouts.forEach(work => {
+    //   this._renderWorkoutMarker(work);
+    // });
   }
 
   _showForm(mapE) {
@@ -239,10 +263,51 @@ class App {
     inputDistance.focus();
   }
 
+  _hideForm() {
+    inputCadence.value =
+      inputDistance.value =
+      inputDuration.value =
+      inputElevation.value =
+        '';
+    // removing the transition: why
+    form.style.display = 'none';
+    form.classList.add('hidden');
+    setTimeout(() => (form.style.display = 'grid'), 1000);
+  }
+
   _toggleElevationField() {
     // selecting parent
     inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
     inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
+  }
+
+  _moveToPopup(e) {
+    if (!this.#map) return;
+    const workoutEl = e.target.closest('.workout');
+    console.log('workout element' + workoutEl);
+    console.dir(workoutEl);
+    // returns the whole element of the workout form\
+    if (!workoutEl) return;
+    console.dir('all workouts', this.#workouts);
+    console.log('element workout', workoutEl);
+
+    const workout = this.#workouts.find(work => {
+      work.id == workoutEl.dataset.id;
+      console.log(work.id);
+      // number
+      console.log(+workoutEl.dataset.id);
+      // string but converted to number with +
+    });
+    console.log('stupid workout' + workout);
+
+    // moving leaflet map
+    this.#map.setView(workout?.coords, this.#mapZoomLevel, {
+      animate: true,
+      pan: { duration: 1 },
+    });
+
+    // using the public interface to count lcicks at anytime I click
+    workout.click();
   }
 }
 
